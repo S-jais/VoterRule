@@ -3,7 +3,7 @@ import crypto from 'crypto';
 import {
   StatusCheckInputSchema,
   ProvenanceSourceType,
-} from '@matdata-setu/shared';
+} from '@voterrule/shared';
 import { DatabaseStore } from '../db/in-memory-db.js';
 import {
   GuidedManualProvider,

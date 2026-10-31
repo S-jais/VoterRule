@@ -8,8 +8,8 @@ import {
   canTransitionPortalCase,
   canSetOfficialStage,
   generatePublicCaseRef,
-} from '@matdata-setu/shared';
-import { GuidanceEngine } from '@matdata-setu/guidance';
+} from '@voterrule/shared';
+import { GuidanceEngine } from '@voterrule/guidance';
 import { DatabaseStore } from '../db/in-memory-db.js';
 import { RoutePolicyRegistry } from '../policy/policy-registry.js';
 import { AuditService } from '../audit/audit-service.js';

@@ -7,7 +7,7 @@ COPY packages/ ./packages/
 COPY apps/web/ ./apps/web/
 
 RUN pnpm install --frozen-lockfile
-RUN pnpm --filter @matdata-setu/web... build
+RUN pnpm --filter @voterrule/web... build
 
 FROM nginx:alpine
 COPY --from=builder /app/apps/web/dist /usr/share/nginx/html

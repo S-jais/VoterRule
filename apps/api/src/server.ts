@@ -8,7 +8,7 @@ async function startServer() {
   try {
     await app.listen({ port: config.port, host: '0.0.0.0' });
     console.log(`================================================================`);
-    console.log(`  MATDATA SETU API SERVER RUNNING ON PORT ${config.port}`);
+    console.log(`  VOTERRULE API SERVER RUNNING ON PORT ${config.port}`);
     console.log(`  Mode: ${config.appMode.toUpperCase()}`);
     console.log(`  OpenAPI Documentation: http://localhost:${config.port}/api/docs`);
     console.log(`================================================================`);

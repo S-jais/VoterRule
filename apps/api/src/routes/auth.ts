@@ -5,7 +5,7 @@ import {
   UserLoginSchema,
   SendOtpSchema,
   VerifyOtpSchema,
-} from '@matdata-setu/shared';
+} from '@voterrule/shared';
 import { DatabaseStore } from '../db/in-memory-db.js';
 import { FieldEncryptionService } from '../crypto/encryption.js';
 import { RoutePolicyRegistry } from '../policy/policy-registry.js';
@@ -310,7 +310,7 @@ export function registerAuthRoutes(
         return reply.status(400).send({
           error: {
             code: 'AGE_CONFIRMATION_REQUIRED',
-            message: 'You must confirm you are at least 18 years old to create an account on Matdata Setu.',
+            message: 'You must confirm you are at least 18 years old to create an account on VoterRule.',
             requestId: req.id,
           },
           meta: { requestId: req.id, timestamp: new Date().toISOString() },

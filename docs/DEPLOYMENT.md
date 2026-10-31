@@ -35,7 +35,7 @@ Before launching in `APP_MODE=production`, operators must verify the following:
   - `JWT_SECRET` configured with a dedicated 32-byte secret.
 - [ ] **2. Database Connectivity & Migrations:**
   - PostgreSQL 15+ instance provisioned with SSL enforcement (`sslmode=require`).
-  - Database migrations executed: `pnpm --filter @matdata-setu/api db:migrate`.
+  - Database migrations executed: `pnpm --filter @voterrule/api db:migrate`.
   - Database user restricted from performing `DROP TABLE` or schema modifications during normal operations.
 - [ ] **3. Object Storage Security:**
   - MinIO / S3 bucket configured with **Block All Public Access = TRUE**.
@@ -45,7 +45,7 @@ Before launching in `APP_MODE=production`, operators must verify the following:
   - ClamAV container running with active signature definitions (`freshclam`).
   - Network reachability verified on port 3310.
 - [ ] **5. First Administrator Bootstrapped:**
-  - Run `pnpm --filter @matdata-setu/api admin:bootstrap` to generate a single-use 15-minute token.
+  - Run `pnpm --filter @voterrule/api admin:bootstrap` to generate a single-use 15-minute token.
   - Log in via the Admin portal and configure TOTP / WebAuthn passkey immediately.
 
 ---

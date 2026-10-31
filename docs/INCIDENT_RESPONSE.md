@@ -1,6 +1,6 @@
 # Security & Personal Data Breach Incident Response Plan
 
-> **Scope:** Matdata Setu Infrastructure, Databases, and API Services  
+> **Scope:** VoterRule Infrastructure, Databases, and API Services  
 > **Compliance Frameworks:** DPDP Act 2023 / Draft DPDP Rules 2025; CERT-In Cyber Security Directions (Ref No. 20(3)/2022-CERT-In dated 28 April 2022); ISO/IEC 27035.  
 > **Last Verified:** October 2026
 
@@ -65,10 +65,10 @@ When personal data exposure or key compromise is suspected:
    Rotate MinIO/S3 access credentials in environment variables and restart API pods.
 
 ### Step 2: Audit Chain Integrity Verification
-Matdata Setu maintains a cryptographically linked SHA-256 hash chain for all administrative and citizen actions.
+VoterRule maintains a cryptographically linked SHA-256 hash chain for all administrative and citizen actions.
 Execute the integrity verifier to confirm whether audit records have been tampered with:
 ```bash
-pnpm --filter @matdata-setu/api exec node dist/cli/verify-audit-chain.js
+pnpm --filter @voterrule/api exec node dist/cli/verify-audit-chain.js
 ```
 * **Output `CHAIN_INTACT`:** Proceed with standard forensic log analysis.
 * **Output `CHAIN_BROKEN at Block #N`:** Immediately quarantine database instance and switch read replica to read-only forensic mode.
@@ -86,8 +86,8 @@ Date: [YYYY-MM-DD HH:MM IST]
 Incident Reference: MS-INC-[YEAR]-[ID]
 
 1. IDENTITY OF DATA FIDUCIARY:
-   Entity Name: Matdata Setu Civic Initiative
-   Registration / DPO Contact: dpo@matdata-setu.org | +91-XXXXXXXXXX
+   Entity Name: VoterRule Civic Initiative
+   Registration / DPO Contact: dpo@voterrule.org | +91-XXXXXXXXXX
 
 2. NATURE AND SCOPE OF BREACH:
    Description: [Describe unauthorized access / exfiltration / transmission]
@@ -117,39 +117,39 @@ Submitted by: [Name & Designation, Data Protection Officer]
 
 #### English Version:
 ```text
-Important Notice Regarding Your Matdata Setu Account (Portal Ref: {case_ref})
+Important Notice Regarding Your VoterRule Account (Portal Ref: {case_ref})
 
 Dear Citizen,
 
-We are writing to inform you of a security incident that may have involved your contact details submitted on the Matdata Setu civic portal.
+We are writing to inform you of a security incident that may have involved your contact details submitted on the VoterRule civic portal.
 
 What Happened: On [Date], our automated monitoring detected unauthorized access to [System/Service]. 
 
 What Data Was Involved: Your registered mobile number and portal reference ID. 
-Please note: Your Aadhaar number was NEVER collected, stored, or compromised, as Matdata Setu does not process Aadhaar numbers.
+Please note: Your Aadhaar number was NEVER collected, stored, or compromised, as VoterRule does not process Aadhaar numbers.
 
 What We Did: We immediately blocked the unauthorized access, invalidated all active login sessions, and rotated our cryptographic keys. We have informed the Data Protection Board of India.
 
 What You Should Do: 
-1. Log in securely to your Matdata Setu dashboard and verify your pending inquiries.
+1. Log in securely to your VoterRule dashboard and verify your pending inquiries.
 2. Beware of unsolicited messages or calls asking for OTPs or personal documents. Official election staff will never ask for bank details or passwords.
 3. For statutory roll queries, you may directly call the national voter helpline at 1950.
 
-If you have questions, please reach our Data Protection Officer at privacy@matdata-setu.org.
+If you have questions, please reach our Data Protection Officer at privacy@voterrule.org.
 ```
 
 #### Hindi Version (हिन्दी):
 ```text
-आपके मतदाता सेतु खाते से संबंधित महत्वपूर्ण सुरक्षा सूचना (केस संदर्भ: {case_ref})
+आपके VoterRule खाते से संबंधित महत्वपूर्ण सुरक्षा सूचना (केस संदर्भ: {case_ref})
 
 प्रिय नागरिक,
 
-हम आपको सूचित कर रहे हैं कि मतदाता सेतु पोर्टल पर आपके द्वारा दर्ज किए गए संपर्क विवरण से संबंधित एक सुरक्षा घटना संज्ञान में आई है।
+हम आपको सूचित कर रहे हैं कि VoterRule पोर्टल पर आपके द्वारा दर्ज किए गए संपर्क विवरण से संबंधित एक सुरक्षा घटना संज्ञान में आई है।
 
 क्या हुआ: [दिनांक] को हमारी सुरक्षा प्रणाली ने [सिस्टम] पर एक अनधिकृत पहुंच का पता लगाया।
 
 कौन सा डेटा प्रभावित हुआ: आपका पंजीकृत मोबाइल नंबर और केस संदर्भ संख्या।
-कृपया ध्यान दें: आपका आधार नंबर कभी भी संग्रहीत या एकत्र नहीं किया गया था, क्योंकि मतदाता सेतु आधार नंबर स्वीकार नहीं करता है।
+कृपया ध्यान दें: आपका आधार नंबर कभी भी संग्रहीत या एकत्र नहीं किया गया था, क्योंकि VoterRule आधार नंबर स्वीकार नहीं करता है।
 
 हमने क्या कदम उठाए: हमने तुरंत अनधिकृत पहुंच को रोक दिया, सभी सक्रिय सत्रों को समाप्त कर दिया और एन्क्रिप्शन कुंजियों को बदल दिया। हमने भारतीय डेटा संरक्षण बोर्ड (DPBI) को विधिवत सूचित कर दिया है।
 
@@ -158,5 +158,5 @@ If you have questions, please reach our Data Protection Officer at privacy@matda
 2. किसी भी अज्ञात संदेश या कॉल पर ओटीपी (OTP) या बैंक विवरण साझा न करें। आधिकारिक चुनाव कर्मी कभी पासवर्ड नहीं मांगते।
 3. किसी भी आधिकारिक सहायता के लिए राष्ट्रीय मतदाता हेल्पलाइन 1950 पर संपर्क करें।
 
-किसी भी प्रश्न के लिए हमारी गोपनीयता टीम से privacy@matdata-setu.org पर संपर्क करें।
+किसी भी प्रश्न के लिए हमारी गोपनीयता टीम से privacy@voterrule.org पर संपर्क करें।
 ```

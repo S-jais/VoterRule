@@ -1,6 +1,6 @@
 # Design System Tokens & Brand Standards
 
-> **Package:** `@matdata-setu/ui`  
+> **Package:** `@voterrule/ui`  
 > **Source File:** `packages/ui/src/tokens.ts`  
 > **Theme Philosophy:** Tiranga-inspired civic dignity, high contrast accessibility, and zero government impersonation.
 

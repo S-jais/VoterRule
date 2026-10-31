@@ -1,7 +1,7 @@
 import {
   DuplicateReasonCode,
   SimilarityCategory,
-} from '@matdata-setu/shared';
+} from '@voterrule/shared';
 import { FieldEncryptionService } from '../crypto/encryption.js';
 
 export interface SubjectDetails {

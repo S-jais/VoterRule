@@ -1,12 +1,12 @@
-# Matdata Setu (मतदाता सेतु) - Architecture Decisions & Living Record
+# VoterRule - Architecture Decisions & Living Record
 
 ## Architecture & Product Decisions
 
 ### 1. Product Name & Civic Identity
-- **Working Name**: "Matdata Setu" (मतदाता सेतु).
+- **Working Name**: "VoterRule" (VoterRule).
 - **Sanity Check**: Evaluated against official Election Commission of India (ECI) services:
   - Official services: "Voters' Service Portal" (voters.eci.gov.in), "Voter Helpline App" (VHA), "ECINET", "cVIGIL", "Saksham ECI".
-  - Findings: "Matdata Setu" has no naming collision with any ECI official portal. The name accurately reflects its civic bridge (Setu) role connecting citizens with official procedures.
+  - Findings: "VoterRule" has no naming collision with any ECI official portal. The name accurately reflects its civic bridge (Setu) role connecting citizens with official procedures.
   - Fallback name "JanMat Saathi" reserved if future trademark or statutory review dictates.
 - **Civic Neutrality & Non-Affiliation**: The platform strictly uses an original 24-spoke geometric Chakra mark and abstract bridge arc. No State Emblem of India (Lion Capital of Ashoka) or national flag reproduction is used. Persistent disclaimer rendered across all viewports.
 
@@ -27,7 +27,7 @@
 
 ### 4. DPDP Act 2023 / Rules 2025 Compliance & Minor Handling
 - **Decision**: Processing of children's data under Section 9 of the DPDP Act carries strict verification and parental consent mandates.
-- **Rule**: Matdata Setu accounts are strictly restricted to adults (18+).
+- **Rule**: VoterRule accounts are strictly restricted to adults (18+).
 - **Stateless Minor Guidance**: Prospective electors (17+ eligible for advance submission under the 4 qualifying dates: Jan 1, Apr 1, Jul 1, Oct 1) receive a completely stateless, unauthenticated, zero-data-stored guidance view at `/eligibility-check`. Documented in `docs/LEGAL_REVIEW.md`.
 
 ### 5. Truth-State Separation
@@ -124,4 +124,4 @@
   - Deep ink typography: `--ink: #0B1030` with chakra navy buttons (`#000080`) and tricolor accents.
 - **Seamless Theme Switching**:
   - Pre-paint theme detection in `<head>` of `index.html` prevents any theme flashing during initial paint.
-  - Switch in the header dynamically toggles between `🌙 Dark mode` and `☀️ Light mode` and persists the selection in `localStorage` under `'matdata_theme'`.
+  - Switch in the header dynamically toggles between `🌙 Dark mode` and `☀️ Light mode` and persists the selection in `localStorage` under `'voterrule_theme'`.

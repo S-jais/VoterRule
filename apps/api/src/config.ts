@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-import { GuidanceEngine } from '@matdata-setu/guidance';
+import { GuidanceEngine } from '@voterrule/guidance';
 
 dotenv.config();
 

@@ -12,7 +12,7 @@ import {
   StaffRole,
   StatusCheckOutcome,
   generatePublicCaseRef,
-} from '@matdata-setu/shared';
+} from '@voterrule/shared';
 import { DatabaseStore } from './in-memory-db.js';
 import { FieldEncryptionService } from '../crypto/encryption.js';
 
@@ -20,7 +20,7 @@ export async function seedDemoDatabase(
   db: DatabaseStore,
   encryption: FieldEncryptionService
 ): Promise<void> {
-  const commonPasswordHash = await encryption.hashPassword('DemoSetuPass2026!');
+  const commonPasswordHash = await encryption.hashPassword('DemoVoterRulePass2026!');
 
   // 1. Staff Accounts
   const adminUserId = 'synth-user-admin-01';
@@ -69,8 +69,8 @@ export async function seedDemoDatabase(
   const citizen1Id = 'synth-citizen-aarav-01';
   db.users.set(citizen1Id, {
     id: citizen1Id,
-    emailCiphertext: encryption.encryptField('aarav.synthetic@demo.setu').ciphertext,
-    emailBlindIndex: encryption.computeBlindIndex('aarav.synthetic@demo.setu'),
+    emailCiphertext: encryption.encryptField('aarav.synthetic@demo.voterrule').ciphertext,
+    emailBlindIndex: encryption.computeBlindIndex('aarav.synthetic@demo.voterrule'),
     passwordHash: commonPasswordHash,
     locale: 'en',
     ageConfirmed18Plus: true,
@@ -116,8 +116,8 @@ export async function seedDemoDatabase(
   const citizen2Id = 'synth-citizen-priya-02';
   db.users.set(citizen2Id, {
     id: citizen2Id,
-    emailCiphertext: encryption.encryptField('priya.synthetic@demo.setu').ciphertext,
-    emailBlindIndex: encryption.computeBlindIndex('priya.synthetic@demo.setu'),
+    emailCiphertext: encryption.encryptField('priya.synthetic@demo.voterrule').ciphertext,
+    emailBlindIndex: encryption.computeBlindIndex('priya.synthetic@demo.voterrule'),
     passwordHash: commonPasswordHash,
     locale: 'hi',
     ageConfirmed18Plus: true,
@@ -190,8 +190,8 @@ export async function seedDemoDatabase(
   const citizen3Id = 'synth-citizen-vikram-03';
   db.users.set(citizen3Id, {
     id: citizen3Id,
-    emailCiphertext: encryption.encryptField('vikram.synthetic@demo.setu').ciphertext,
-    emailBlindIndex: encryption.computeBlindIndex('vikram.synthetic@demo.setu'),
+    emailCiphertext: encryption.encryptField('vikram.synthetic@demo.voterrule').ciphertext,
+    emailBlindIndex: encryption.computeBlindIndex('vikram.synthetic@demo.voterrule'),
     passwordHash: commonPasswordHash,
     locale: 'en',
     ageConfirmed18Plus: true,
@@ -224,8 +224,8 @@ export async function seedDemoDatabase(
   const citizen4Id = 'synth-citizen-ananya-04';
   db.users.set(citizen4Id, {
     id: citizen4Id,
-    emailCiphertext: encryption.encryptField('ananya.synthetic@demo.setu').ciphertext,
-    emailBlindIndex: encryption.computeBlindIndex('ananya.synthetic@demo.setu'),
+    emailCiphertext: encryption.encryptField('ananya.synthetic@demo.voterrule').ciphertext,
+    emailBlindIndex: encryption.computeBlindIndex('ananya.synthetic@demo.voterrule'),
     passwordHash: commonPasswordHash,
     locale: 'en',
     ageConfirmed18Plus: true,

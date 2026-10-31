@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, Button, Input, Alert } from '@matdata-setu/ui';
+import { Card, Button, Input, Alert } from '@voterrule/ui';
 import { useApp } from '../context/AppContext.js';
 
 export interface IssuesPageProps {

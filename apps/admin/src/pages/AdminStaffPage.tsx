@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Card, Button, Input, Alert } from '@matdata-setu/ui';
-import { StaffRole } from '@matdata-setu/shared';
+import { Card, Button, Input, Alert } from '@voterrule/ui';
+import { StaffRole } from '@voterrule/shared';
 import { useAdmin } from '../context/AdminContext.js';
 
 export const AdminStaffPage: React.FC = () => {

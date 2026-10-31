@@ -1,4 +1,4 @@
-# Matdata Setu - Architecture & System Design
+# VoterRule - Architecture & System Design
 
 ## 1. System Topology & Trust Boundaries
 
@@ -29,7 +29,7 @@
 ```
 
 ## 2. The Two Independent Truth-State Systems
-Matdata Setu strictly decouples portal workflow from real-world election authority decisions:
+VoterRule strictly decouples portal workflow from real-world election authority decisions:
 - **System A: Official-Process Stage (What has occurred in statutory reality):**
   1. `ACCOUNT_CREATED`
   2. `INFO_SUBMITTED_TO_PORTAL`

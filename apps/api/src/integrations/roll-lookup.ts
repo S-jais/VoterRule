@@ -1,4 +1,4 @@
-import { StatusCheckOutcome } from '@matdata-setu/shared';
+import { StatusCheckOutcome } from '@voterrule/shared';
 
 export interface OfficialLookupQuery {
   epicNumber?: string;

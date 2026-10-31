@@ -4,7 +4,7 @@ import {
   ELIGIBILITY_QUESTIONS,
   HELPLINE_SEEDS,
   OFFICIAL_LINKS_SEEDS,
-} from '@matdata-setu/guidance';
+} from '@voterrule/guidance';
 import { RoutePolicyRegistry } from '../policy/policy-registry.js';
 
 export function registerGuidanceRoutes(app: FastifyInstance, guidanceEngine: GuidanceEngine): void {

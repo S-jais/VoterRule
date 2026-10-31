@@ -23,16 +23,16 @@ importers:
 
   apps/admin:
     dependencies:
-      '@matdata-setu/guidance':
+      '@voterrule/guidance':
         specifier: workspace:*
         version: link:../../packages/guidance
-      '@matdata-setu/i18n':
+      '@voterrule/i18n':
         specifier: workspace:*
         version: link:../../packages/i18n
-      '@matdata-setu/shared':
+      '@voterrule/shared':
         specifier: workspace:*
         version: link:../../packages/shared
-      '@matdata-setu/ui':
+      '@voterrule/ui':
         specifier: workspace:*
         version: link:../../packages/ui
       clsx:
@@ -96,13 +96,13 @@ importers:
       '@fastify/swagger-ui':
         specifier: ^4.0.1
         version: 4.2.0
-      '@matdata-setu/guidance':
+      '@voterrule/guidance':
         specifier: workspace:*
         version: link:../../packages/guidance
-      '@matdata-setu/i18n':
+      '@voterrule/i18n':
         specifier: workspace:*
         version: link:../../packages/i18n
-      '@matdata-setu/shared':
+      '@voterrule/shared':
         specifier: workspace:*
         version: link:../../packages/shared
       dotenv:
@@ -133,16 +133,16 @@ importers:
 
   apps/web:
     dependencies:
-      '@matdata-setu/guidance':
+      '@voterrule/guidance':
         specifier: workspace:*
         version: link:../../packages/guidance
-      '@matdata-setu/i18n':
+      '@voterrule/i18n':
         specifier: workspace:*
         version: link:../../packages/i18n
-      '@matdata-setu/shared':
+      '@voterrule/shared':
         specifier: workspace:*
         version: link:../../packages/shared
-      '@matdata-setu/ui':
+      '@voterrule/ui':
         specifier: workspace:*
         version: link:../../packages/ui
       clsx:
@@ -188,7 +188,7 @@ importers:
 
   packages/guidance:
     dependencies:
-      '@matdata-setu/shared':
+      '@voterrule/shared':
         specifier: workspace:*
         version: link:../shared
     devDependencies:
@@ -223,7 +223,7 @@ importers:
 
   packages/ui:
     dependencies:
-      '@matdata-setu/shared':
+      '@voterrule/shared':
         specifier: workspace:*
         version: link:../shared
       clsx:

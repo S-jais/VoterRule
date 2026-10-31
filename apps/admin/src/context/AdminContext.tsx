@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState } from 'react';
-import { StaffRole } from '@matdata-setu/shared';
+import { StaffRole } from '@voterrule/shared';
 
 interface AdminStaffSession {
   userId: string;

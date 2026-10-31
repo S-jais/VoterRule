@@ -42,7 +42,7 @@ export const App: React.FC = () => {
         {renderContent()}
       </main>
       <footer className="border-t border-gray-200 bg-white py-4 text-center text-xs text-gray-500">
-        Matdata Setu Reviewer Portal • Internal authorized use only • All actions logged in append-only audit trail
+        VoterRule Reviewer Portal • Internal authorized use only • All actions logged in append-only audit trail
       </footer>
     </div>
   );

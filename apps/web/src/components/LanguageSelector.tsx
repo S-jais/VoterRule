@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useApp } from '../context/AppContext.js';
-import { SUPPORTED_LANGUAGES, Locale } from '@matdata-setu/i18n';
+import { SUPPORTED_LANGUAGES, Locale } from '@voterrule/i18n';
 
 export interface LanguageSelectorProps {
   compact?: boolean;

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, Button, Alert } from '@matdata-setu/ui';
+import { Card, Button, Alert } from '@voterrule/ui';
 import { useApp } from '../context/AppContext.js';
 
 export interface CheckInPageProps {
@@ -68,7 +68,7 @@ export const CheckInPage: React.FC<CheckInPageProps> = ({ onNavigate }) => {
             <div className="p-4 bg-[var(--surface-2)] rounded-[var(--r-md)] border border-[var(--line)] space-y-2 text-xs">
               <div>
                 <span className="text-[var(--ink-3)] block">Registered Email:</span>
-                <span className="font-bold text-[var(--ink)]">{user?.email || 'citizen@demo.setu'}</span>
+                <span className="font-bold text-[var(--ink)]">{user?.email || 'citizen@demo.voterrule'}</span>
               </div>
               <div>
                 <span className="text-[var(--ink-3)] block">Reminder Frequency:</span>

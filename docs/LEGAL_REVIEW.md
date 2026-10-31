@@ -1,4 +1,4 @@
-# Legal & Regulatory Review Brief: Matdata Setu (मतदाता सेतु)
+# Legal & Regulatory Review Brief: VoterRule
 
 > **Document Status:** Pre-Launch Legal Counsel Briefing  
 > **Applicable Jurisdictions:** Republic of India  
@@ -8,7 +8,7 @@
 
 ## 1. Executive Summary & Purpose
 
-Matdata Setu is an **independent civic-assistance platform** designed to help eligible Indian citizens verify their electoral-roll status, prepare statutory applications (Forms 6, 6A, 6B, 7, and 8), and track civic assistance cases. 
+VoterRule is an **independent civic-assistance platform** designed to help eligible Indian citizens verify their electoral-roll status, prepare statutory applications (Forms 6, 6A, 6B, 7, and 8), and track civic assistance cases. 
 
 The platform **is not affiliated with, authorized by, or an agent of the Election Commission of India (ECI), Chief Electoral Officers (CEOs), or any government authority**. 
 
@@ -27,14 +27,14 @@ This document outlines the mandatory legal checks and compliance validations req
 
 ### 2.2 Processing of Children's Data (Electors Aged < 18)
 * Under Section 9 of the DPDP Act, data fiduciaries have onerous verification obligations before processing personal data of children (defined as individuals under 18 years of age).
-* **Architectural Safeguard:** Matdata Setu enforces an **absolute zero-data-stored, stateless model** for prospective electors aged 17+ who wish to check advance qualifying dates.
+* **Architectural Safeguard:** VoterRule enforces an **absolute zero-data-stored, stateless model** for prospective electors aged 17+ who wish to check advance qualifying dates.
 * Account creation is hard-gated to electors who certify they are 18 years or older.
 * Electors aged 17 receive guidance via a client-side stateless questionnaire (`/eligibility-check`) that writes zero data to backend databases, server logs, or browser storage.
 * *Counsel Action:* Confirm that the stateless guidance does not trigger DPDP child-data fiduciary obligations.
 
 ### 2.3 Aadhaar Number Prohibition & Redaction
 * Under the Aadhaar (Targeted Delivery of Financial and Other Subsidies, Benefits and Services) Act, 2016 and the *Puttaswamy* judgment, non-governmental private entities are prohibited from requiring or storing Aadhaar numbers without explicit statutory authorization.
-* **Matdata Setu Policy:**
+* **VoterRule Policy:**
   1. The portal **never** requests, collects, or stores Aadhaar numbers.
   2. The database schema has no Aadhaar field.
   3. Every document upload UI displays a prominent warning instructing citizens to **mask the first 8 digits** of any submitted proof document, leaving only the last 4 visible.
@@ -65,7 +65,7 @@ This document outlines the mandatory legal checks and compliance validations req
 
 ### 3.3 Mandatory Non-Affiliation Disclaimers
 * A persistent, prominent notice appears across the global footer, header banners, and case export sheets:
-  > *"Matdata Setu is an independent civic-assistance platform and is not affiliated with the Election Commission of India or any government body. Official electoral-roll decisions are made solely by statutory Electoral Registration Officers (EROs)."*
+  > *"VoterRule is an independent civic-assistance platform and is not affiliated with the Election Commission of India or any government body. Official electoral-roll decisions are made solely by statutory Electoral Registration Officers (EROs)."*
 * Portal reference identifiers use the Crockford Base32 pattern `MS-2026-XXXXXXXX` and are always labeled: *"Portal reference (not an official ECI acknowledgement number)"*.
 
 ---

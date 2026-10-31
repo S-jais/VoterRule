@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Card, Button, Input, Alert } from '@matdata-setu/ui';
-import { StatusCheckOutcome } from '@matdata-setu/shared';
+import { Card, Button, Input, Alert } from '@voterrule/ui';
+import { StatusCheckOutcome } from '@voterrule/shared';
 import { useApp } from '../context/AppContext.js';
 
 export interface CheckPageProps {

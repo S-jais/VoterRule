@@ -5,8 +5,8 @@ import {
   Badge,
   ProvenanceChip,
   AshokaChakraProgressRing,
-} from '@matdata-setu/ui';
-import { ProvenanceSourceType } from '@matdata-setu/shared';
+} from '@voterrule/ui';
+import { ProvenanceSourceType } from '@voterrule/shared';
 import { useApp } from '../context/AppContext.js';
 
 export interface DashboardPageProps {

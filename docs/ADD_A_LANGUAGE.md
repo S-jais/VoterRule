@@ -1,7 +1,7 @@
 # How to Add a New Language (Data-Only Translation Guide)
 
 > **Architectural Principle:** Adding or updating a language is a **zero-code-refactor, data-only change**.  
-> The `@matdata-setu/i18n` package enforces 100% dictionary key parity at compile time via TypeScript interfaces.
+> The `@voterrule/i18n` package enforces 100% dictionary key parity at compile time via TypeScript interfaces.
 
 ---
 
@@ -43,7 +43,7 @@ Create a new file `packages/i18n/src/locales/ta.ts`. Copy the structure from `pa
 import { TranslationDictionary } from '../types.js';
 
 export const ta: TranslationDictionary = {
-  appName: 'மததாதா சேது (Matdata Setu)',
+  appName: 'மததாதா சேது (VoterRule)',
   independentNotice: 'மததாதா சேது என்பது ஒரு சுதந்திரமான குடிமக்கள் உதவி தளம் ஆகும்...',
   heroTitle: 'உங்கள் வாக்காளர் பதிவு உரிமைகளை எளிமையாகவும் வெளிப்படையாகவும் பாதுகாக்கவும்',
   // Complete remaining dictionary keys...
@@ -70,7 +70,7 @@ export * from './translator.js';
 Run the i18n package test suite:
 
 ```bash
-pnpm --filter @matdata-setu/i18n test
+pnpm --filter @voterrule/i18n test
 ```
 
 The automated parity test will compare every key in the new dictionary against `en.ts` and confirm:
@@ -81,6 +81,6 @@ The automated parity test will compare every key in the new dictionary against `
 ### Step 5: Test the UI
 Start the web application:
 ```bash
-pnpm --filter @matdata-setu/web dev
+pnpm --filter @voterrule/web dev
 ```
 Open `http://localhost:3000`. Click the Language Switcher in the top right header. Your new language will appear in its native script and immediately switch all text across the portal.

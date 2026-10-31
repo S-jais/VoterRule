@@ -1,5 +1,5 @@
 {
-  "name": "@matdata-setu/guidance",
+  "name": "@voterrule/guidance",
   "version": "1.0.0",
   "private": true,
   "type": "module",
@@ -11,7 +11,7 @@
     "lint": "tsc --noEmit"
   },
   "dependencies": {
-    "@matdata-setu/shared": "workspace:*"
+    "@voterrule/shared": "workspace:*"
   },
   "devDependencies": {
     "typescript": "^5.6.3",

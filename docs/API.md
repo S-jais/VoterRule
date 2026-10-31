@@ -1,6 +1,6 @@
-# Matdata Setu API Specification (v1)
+# VoterRule API Specification (v1)
 
-**Product**: Matdata Setu (मतदाता सेतु)  
+**Product**: VoterRule  
 **Base URL**: `http://localhost:4000/api/v1`  
 **OpenAPI Swagger UI**: `http://localhost:4000/api/docs`  
 **Health Check**: `http://localhost:4000/health` and `http://localhost:4000/api/v1/health`

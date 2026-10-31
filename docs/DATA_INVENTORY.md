@@ -1,4 +1,4 @@
-# Matdata Setu - Data Inventory & DPDP Act 2023 Lawful Basis
+# VoterRule - Data Inventory & DPDP Act 2023 Lawful Basis
 
 Under the Digital Personal Data Protection (DPDP) Act, 2023 and the DPDP Rules, 2025, personal data processing must adhere to strict purpose limitation, data minimization, and lawful processing bases.
 
@@ -17,6 +17,6 @@ Under the Digital Personal Data Protection (DPDP) Act, 2023 and the DPDP Rules, 
 | **Audit: audit_events** | Tamper-evident activity logs | Append-only SHA-256 chain | Security monitoring and breach accountability (Section 8(6)) | Statutory duty | 3 years (audit trail) | Read-only Auditor, Platform Admin |
 
 ## Mandatory Prohibitions & Non-Collection
-1. **Aadhaar Numbers:** Matdata Setu NEVER collects, asks for, or stores unmasked Aadhaar numbers. Citizens are required to mask the first 8 digits of any identity document before upload.
+1. **Aadhaar Numbers:** VoterRule NEVER collects, asks for, or stores unmasked Aadhaar numbers. Citizens are required to mask the first 8 digits of any identity document before upload.
 2. **Biometrics & Facial Recognition:** No face recognition, selfies, or biometric checks are implemented anywhere on the platform.
 3. **Caste, Religion, or Community Data:** No fields collecting or inferring religion, caste, or ethnicity exist in schemas or algorithms.

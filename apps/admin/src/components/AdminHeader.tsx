@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrandWordmark, DemoBanner } from '@matdata-setu/ui';
+import { BrandWordmark, DemoBanner } from '@voterrule/ui';
 import { useAdmin } from '../context/AdminContext.js';
 
 export interface AdminHeaderProps {

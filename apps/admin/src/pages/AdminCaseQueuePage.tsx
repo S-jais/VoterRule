@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Button, Badge, Modal, Input, Alert } from '@matdata-setu/ui';
+import { Card, Button, Badge, Modal, Input, Alert } from '@voterrule/ui';
 import {
   OfficialProcessStage,
   PortalCaseStatus,
-} from '@matdata-setu/shared';
+} from '@voterrule/shared';
 import { useAdmin } from '../context/AdminContext.js';
 
 export const AdminCaseQueuePage: React.FC = () => {

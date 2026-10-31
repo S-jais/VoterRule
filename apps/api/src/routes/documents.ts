@@ -1,7 +1,7 @@
 import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
 import crypto from 'crypto';
 import fs from 'fs';
-import { DocumentType } from '@matdata-setu/shared';
+import { DocumentType } from '@voterrule/shared';
 import { DatabaseStore } from '../db/in-memory-db.js';
 import { DocumentStorageService } from '../storage/storage-adapter.js';
 import { RoutePolicyRegistry } from '../policy/policy-registry.js';

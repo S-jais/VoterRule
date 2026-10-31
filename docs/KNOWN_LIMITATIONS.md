@@ -6,7 +6,7 @@
 
 ## 1. Statutory API Gateway & Real-Time Electoral Roll Verification
 
-* **Limitation:** Matdata Setu does not possess an active bilateral MoU or direct private API interconnect with the Election Commission of India's central ERONet system.
+* **Limitation:** VoterRule does not possess an active bilateral MoU or direct private API interconnect with the Election Commission of India's central ERONet system.
 * **Why:** The Representation of the People Act, 1950 and the Registration of Electors Rules, 1960 place custody of the electoral rolls exclusively with designated statutory officers (Electoral Registration Officers). Direct machine-to-machine API access is not open to public or private third parties without formal authorization.
 * **Working Alternative:** The portal implements the **Guided Manual Verification** workflow. It dynamically generates deep links to the official ECI search interface (`voters.eci.gov.in`), assists the elector in formulating the search parameters, and records the verified citizen-observed outcome with an immutable timestamp and provenance chip.
 * **Integrity Guard:** The platform strictly prohibits web scraping, automated CAPTCHA bypassing, or reverse-engineering of official portals.
@@ -16,7 +16,7 @@
 ## 2. Telecommunication & SMS Delivery in Demo Mode
 
 * **Limitation:** In `APP_MODE=demo`, live SMS text messages are not transmitted over cellular networks.
-* **Why:** Production SMS delivery requires TRAI DLT registration, approved Transactional Header IDs (e.g., `VM-MSETU`), and registered SMS templates pursuant to the Telecom Commercial Communications Customer Preference Regulations, 2018.
+* **Why:** Production SMS delivery requires TRAI DLT registration, approved Transactional Header IDs (e.g., `VM-VRULE`), and registered SMS templates pursuant to the Telecom Commercial Communications Customer Preference Regulations, 2018.
 * **Working Alternative:** In demo mode, SMS OTPs are fixed to `123456` or logged directly to the server terminal output for immediate verification during demonstrations.
 
 ---

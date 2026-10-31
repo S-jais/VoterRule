@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Button, Badge, Alert, Modal } from '@matdata-setu/ui';
-import { DeceasedReviewState } from '@matdata-setu/shared';
+import { Card, Button, Badge, Alert, Modal } from '@voterrule/ui';
+import { DeceasedReviewState } from '@voterrule/shared';
 import { useAdmin } from '../context/AdminContext.js';
 
 export const AdminDeceasedReviewPage: React.FC = () => {

@@ -1,4 +1,4 @@
-# Matdata Setu (मतदाता सेतु) - Implementation Plan
+# VoterRule - Implementation Plan
 
 ## 1. Executive Mission
 Build an end-to-end, production-grade independent electoral-roll verification and inclusion-assistance portal adhering to constitutional neutrality, statutory accuracy (RPA 1950/1951, Registration of Electors Rules 1960), the Digital Personal Data Protection (DPDP) Act 2023 / Rules 2025, and WCAG 2.2 AA accessibility standards.

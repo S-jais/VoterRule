@@ -7,9 +7,9 @@
 
 ## 1. Principles & Non-Negotiable Boundaries
 
-Matdata Setu operates under three strict integration principles:
+VoterRule operates under three strict integration principles:
 1. **Never scrape or automate official portals:** The platform does not use Puppeteer, Selenium, Playwright, or reverse-engineered private endpoints to access `voters.eci.gov.in` or State CEO websites. Doing so violates terms of service, risks legal liability under the Information Technology Act (Section 43/66), and burdens public infrastructure.
-2. **Never store a shadow copy of the electoral roll:** Matdata Setu does not download, ingest, or mirror electoral rolls in bulk. Official rolls belong exclusively to the competent election authorities.
+2. **Never store a shadow copy of the electoral roll:** VoterRule does not download, ingest, or mirror electoral rolls in bulk. Official rolls belong exclusively to the competent election authorities.
 3. **Graceful degradation to citizen-guided verification:** In the absence of an authorized statutory API gateway, the platform functions flawlessly via the **Guided Manual Lookup** workflow.
 
 ---
@@ -61,10 +61,10 @@ export interface RollLookupResult {
 ### 3.1 `GuidedManualProvider` (Active Default Mode)
 * **Status:** Fully functional, requires zero external credentials.
 * **Workflow:**
-  1. Citizen enters their state, constituency, and EPIC/Name details into Matdata Setu.
+  1. Citizen enters their state, constituency, and EPIC/Name details into VoterRule.
   2. The portal generates a structured guidance card directing the citizen to the exact official statutory search portal (`https://voters.eci.gov.in/#/search-in-e-roll`).
   3. The citizen runs the query in their own browser and solves the official CAPTCHA directly.
-  4. The citizen returns to Matdata Setu and records the result from 5 strictly allowed neutral outcomes:
+  4. The citizen returns to VoterRule and records the result from 5 strictly allowed neutral outcomes:
      - `CONFIRMED_PRESENT_IN_OFFICIAL_RESULT`
      - `NOT_FOUND_IN_CHECKED_SEARCH`
      - `DETAILS_APPEAR_INCONSISTENT`
@@ -80,10 +80,10 @@ export interface RollLookupResult {
   OFFICIAL_ROLL_API_ENABLED=true
   OFFICIAL_ROLL_API_URL=https://api.voters.eci.gov.in/v1/verified-search
   OFFICIAL_ROLL_API_KEY=sec_prod_live_xxxxxxxxxxxxxx
-  OFFICIAL_ROLL_API_SIGNING_CERT=/etc/ssl/certs/matdata-setu-client.pem
+  OFFICIAL_ROLL_API_SIGNING_CERT=/etc/ssl/certs/voterrule-client.pem
   ```
 * **Security Constraints:**
-  - Requests must be digitally signed with Matdata Setu's mTLS client certificate.
+  - Requests must be digitally signed with VoterRule's mTLS client certificate.
   - Returned payloads are verified against the ECI public key before recording stage transitions.
   - Rate-limited to max 10 requests per minute per IP to prevent search exhaustion.
 

@@ -7,7 +7,7 @@ import {
   Badge,
   AshokaChakraProgressRing,
   IndependentNotice,
-} from '@matdata-setu/ui';
+} from '@voterrule/ui';
 import { useApp } from '../context/AppContext.js';
 
 export interface MissingNamePageProps {

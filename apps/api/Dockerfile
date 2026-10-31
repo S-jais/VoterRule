@@ -7,7 +7,7 @@ COPY packages/ ./packages/
 COPY apps/api/ ./apps/api/
 
 RUN pnpm install --frozen-lockfile
-RUN pnpm --filter @matdata-setu/api... build
+RUN pnpm --filter @voterrule/api... build
 
 EXPOSE 4000
 CMD ["node", "apps/api/dist/index.js"]

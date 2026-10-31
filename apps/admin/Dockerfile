@@ -7,7 +7,7 @@ COPY packages/ ./packages/
 COPY apps/admin/ ./apps/admin/
 
 RUN pnpm install --frozen-lockfile
-RUN pnpm --filter @matdata-setu/admin... build
+RUN pnpm --filter @voterrule/admin... build
 
 FROM nginx:alpine
 COPY --from=builder /app/apps/admin/dist /usr/share/nginx/html

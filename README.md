@@ -1,4 +1,4 @@
-# Matdata Setu (मतदाता सेतु)
+# VoterRule
 ### Independent Electoral-Roll Verification & Inclusion-Assistance Portal
 
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.4-blue.svg)](https://www.typescriptlang.org/)
@@ -12,7 +12,7 @@
 
 ## 1. Operating Charter & Civic Guardrails
 
-Matdata Setu is an **independent, non-partisan civic-assistance platform** designed to make it safer, easier, and more transparent for eligible Indian citizens to check their electoral-roll status, understand potential issues, prepare statutory applications (Forms 6, 6A, 6B, 7, and 8), and track assistance cases.
+VoterRule is an **independent, non-partisan civic-assistance platform** designed to make it safer, easier, and more transparent for eligible Indian citizens to check their electoral-roll status, understand potential issues, prepare statutory applications (Forms 6, 6A, 6B, 7, and 8), and track assistance cases.
 
 ### Core Legal & Ethical Guardrails:
 1. **Independent Civic Platform:** Never impersonates or claims affiliation with the Election Commission of India (ECI), Chief Electoral Officers (CEOs), or any government body. No State Emblems, official seals, or government crests are used.
@@ -32,7 +32,7 @@ Matdata Setu is an **independent, non-partisan civic-assistance platform** desig
 ## 2. Monorepo Architecture
 
 ```
-matdata-setu/
+voterrule/
 ├── apps/
 │   ├── web/            # Citizen Web Application (React 18 + Vite + Tailwind CSS)
 │   ├── admin/          # Reviewer & Admin Application (React 18 + Vite + Tailwind CSS)
@@ -63,8 +63,8 @@ The repository includes a zero-dependency in-memory/embedded database adapter an
 ### 1. Clone & Install Dependencies
 ```bash
 # Clone the repository
-git clone https://github.com/matdata-setu/matdata-setu.git
-cd matdata-setu
+git clone https://github.com/S-jais/VoterRule.git
+cd voterrule
 
 # Install monorepo dependencies
 pnpm install
@@ -105,8 +105,8 @@ pnpm dev
 |:---|:---|:---:|:---:|
 | **Citizen (Email)** | `citizen@example.com` | `Password123!` | Not required |
 | **Citizen (Mobile)** | `+919876543210` | N/A | SMS OTP: `123456` |
-| **Reviewer / Staff** | `reviewer@matdata-setu.org` | `Password123!` | TOTP: `123456` |
-| **Platform Administrator**| `admin@matdata-setu.org` | `Password123!` | TOTP: `123456` |
+| **Reviewer / Staff** | `reviewer@voterrule.org` | `Password123!` | TOTP: `123456` |
+| **Platform Administrator**| `admin@voterrule.org` | `Password123!` | TOTP: `123456` |
 
 ---
 
@@ -115,13 +115,13 @@ pnpm dev
 In fresh production environments where no accounts exist, execute the bootstrap CLI to issue a single-use, 15-minute onboarding token:
 
 ```bash
-pnpm --filter @matdata-setu/api admin:bootstrap
+pnpm --filter @voterrule/api admin:bootstrap
 ```
 
 Output:
 ```
 ==============================================================
-   MATDATA SETU - FIRST ADMINISTRATOR ONBOARDING CLI
+   VOTERRULE - FIRST ADMINISTRATOR ONBOARDING CLI
 ==============================================================
 [BOOTSTRAP SUCCESS] Single-use onboarding URL generated:
 http://localhost:4001/auth/bootstrap?token=ms_boot_49a88f72c6e7bb1...
@@ -136,7 +136,7 @@ Token expires in 15 minutes.
 To verify the tamper-evident SHA-256 audit chain of administrative and case actions:
 
 ```bash
-pnpm --filter @matdata-setu/api exec node dist/cli/verify-audit-chain.js
+pnpm --filter @voterrule/api exec node dist/cli/verify-audit-chain.js
 ```
 *Returns `CHAIN_VERIFIED_INTACT` with the genesis hash and head block sequence.*
 
@@ -164,5 +164,5 @@ Detailed architectural and regulatory documentation is available in the [`docs/`
 
 ## 9. License & Civic Statement
 
-Matdata Setu is an open civic initiative. All code is licensed under the Apache License 2.0.  
+VoterRule is an open civic initiative. All code is licensed under the Apache License 2.0.  
 *Voter empowerment. Constitutional neutrality. Privacy by design.*

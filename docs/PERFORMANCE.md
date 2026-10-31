@@ -40,7 +40,7 @@ Calculated against Chrome DevTools Slow 4G / Fast 3G emulation profiles (1.6 Mbp
 
 ## 3. Lite Mode & Low-Bandwidth Optimizations
 
-For users on low-memory feature phones or congested mobile networks, Matdata Setu provides a dedicated **Lite Mode** switch in the global header:
+For users on low-memory feature phones or congested mobile networks, VoterRule provides a dedicated **Lite Mode** switch in the global header:
 1. **Animation Suppression:** Completely disables dynamic CSS background gradients, keyframe pulses, and canvas operations in `TricolorCivicFlow` and `AshokaChakraProgressRing`.
 2. **Static Fallback Tokens:** Replaces animation frames with high-contrast, zero-CPU static SVG glyphs.
 3. **Respect for OS Preferences:** Automatically activates when `prefers-reduced-motion: reduce` or `Save-Data: on` headers are detected.

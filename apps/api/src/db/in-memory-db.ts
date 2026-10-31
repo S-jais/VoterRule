@@ -13,7 +13,7 @@ import {
   SimilarityCategory,
   StaffRole,
   StatusCheckOutcome,
-} from '@matdata-setu/shared';
+} from '@voterrule/shared';
 
 export interface UserRecord {
   id: string;

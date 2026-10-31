@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext.js';
 import { LanguageSelector } from './LanguageSelector.js';
-import { t } from '@matdata-setu/i18n';
+import { t } from '@voterrule/i18n';
 
 export interface HeaderProps {
   currentPath: string;

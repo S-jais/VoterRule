@@ -8,7 +8,7 @@ import {
   OfficialProcessStage,
   PortalCaseStatus,
   generatePublicCaseRef,
-} from '@matdata-setu/shared';
+} from '@voterrule/shared';
 import { DatabaseStore } from '../db/in-memory-db.js';
 import { RoutePolicyRegistry } from '../policy/policy-registry.js';
 import { AuditService } from '../audit/audit-service.js';

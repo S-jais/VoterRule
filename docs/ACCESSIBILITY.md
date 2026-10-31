@@ -1,6 +1,6 @@
 # Accessibility Statement & WCAG 2.2 AA Compliance Audit
 
-> **Portal:** Matdata Setu (मतदाता सेतु)  
+> **Portal:** VoterRule  
 > **Target Standard:** Web Content Accessibility Guidelines (WCAG) 2.2 Level AA  
 > **Evaluation Date:** October 2026
 
@@ -8,7 +8,7 @@
 
 ## 1. Compliance Statement
 
-Matdata Setu is committed to ensuring full civic accessibility and digital non-exclusion for all Indian citizens, regardless of physical ability, device capability, or literacy level. The platform is designed and audited against **WCAG 2.2 Level AA** criteria and adheres to the **Guidelines for Indian Government Websites (GIGW 3.0)** standards for digital inclusion.
+VoterRule is committed to ensuring full civic accessibility and digital non-exclusion for all Indian citizens, regardless of physical ability, device capability, or literacy level. The platform is designed and audited against **WCAG 2.2 Level AA** criteria and adheres to the **Guidelines for Indian Government Websites (GIGW 3.0)** standards for digital inclusion.
 
 ---
 

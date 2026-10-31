@@ -36,9 +36,9 @@ node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 
 | Variable | Format | Example | Purpose |
 |:---|:---:|:---|:---|
-| `DATABASE_URL` | URI | `postgresql://user:pass@host:5432/matdata_setu?sslmode=require` | PostgreSQL 15+ database connection string with SSL. |
+| `DATABASE_URL` | URI | `postgresql://user:pass@host:5432/voterrule?sslmode=require` | PostgreSQL 15+ database connection string with SSL. |
 | `S3_ENDPOINT` | Hostname/IP | `minio:9000` or `s3.ap-south-1.amazonaws.com` | S3-compatible private object storage endpoint. |
-| `S3_BUCKET` | String | `matdata-setu-proofs` | Dedicated bucket for encrypted citizen upload proofs. |
+| `S3_BUCKET` | String | `voterrule-proofs` | Dedicated bucket for encrypted citizen upload proofs. |
 | `S3_ACCESS_KEY` | String | `minioadmin` | S3 API Access Key ID. |
 | `S3_SECRET_KEY` | String | `minioadmin` | S3 API Secret Access Key. |
 | `S3_USE_SSL` | Boolean | `true` \| `false` | Enables HTTPS/TLS for object storage transactions. |

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Badge, Alert } from '@matdata-setu/ui';
+import { Card, Badge, Alert } from '@voterrule/ui';
 
 export const AdminGuidanceManagerPage: React.FC = () => {
   const [items, setItems] = useState<any[]>([]);

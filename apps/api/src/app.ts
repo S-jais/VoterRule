@@ -4,7 +4,7 @@ import helmet from '@fastify/helmet';
 import rateLimit from '@fastify/rate-limit';
 import swagger from '@fastify/swagger';
 import swaggerUi from '@fastify/swagger-ui';
-import { GuidanceEngine } from '@matdata-setu/guidance';
+import { GuidanceEngine } from '@voterrule/guidance';
 import { AppConfig, loadConfig } from './config.js';
 import { DatabaseStore } from './db/in-memory-db.js';
 import { seedDemoDatabase } from './db/seeds.js';
@@ -89,7 +89,7 @@ export async function buildApp(customConfig?: Partial<AppConfig>): Promise<{
   await app.register(swagger, {
     openapi: {
       info: {
-        title: 'Matdata Setu API',
+        title: 'VoterRule API',
         description: 'Independent Electoral-Roll Verification and Inclusion-Assistance Platform API',
         version: '1.0.0',
       },

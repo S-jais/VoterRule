@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { FormCode } from '@matdata-setu/shared';
+import { FormCode } from '@voterrule/shared';
 import { GuidanceEngine } from '../index.js';
 
 describe('Guidance Engine Unit Tests', () => {

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Card, Button, Alert } from '@matdata-setu/ui';
-import { ELIGIBILITY_QUESTIONS } from '@matdata-setu/guidance';
+import { Card, Button, Alert } from '@voterrule/ui';
+import { ELIGIBILITY_QUESTIONS } from '@voterrule/guidance';
 import { useApp } from '../context/AppContext.js';
 
 export interface EligibilityCheckPageProps {

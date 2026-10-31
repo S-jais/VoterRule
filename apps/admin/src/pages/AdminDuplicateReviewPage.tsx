@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Button, Badge, Alert, Modal, Input } from '@matdata-setu/ui';
-import { DuplicateReviewState, SimilarityCategory } from '@matdata-setu/shared';
+import { Card, Button, Badge, Alert, Modal, Input } from '@voterrule/ui';
+import { DuplicateReviewState, SimilarityCategory } from '@voterrule/shared';
 import { useAdmin } from '../context/AdminContext.js';
 
 export const AdminDuplicateReviewPage: React.FC = () => {

@@ -7,7 +7,7 @@ import {
   CivicPulse,
   AshokaChakraProgressRing,
   SmartLoading,
-} from '@matdata-setu/ui';
+} from '@voterrule/ui';
 
 export const HowItWorksPage: React.FC<{ onNavigate: (p: string) => void }> = ({ onNavigate }) => {
   return (

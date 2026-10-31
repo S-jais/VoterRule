@@ -5,8 +5,8 @@ import {
   Badge,
   Input,
   Alert,
-} from '@matdata-setu/ui';
-import { OfficialProcessStage } from '@matdata-setu/shared';
+} from '@voterrule/ui';
+import { OfficialProcessStage } from '@voterrule/shared';
 import { useApp } from '../context/AppContext.js';
 
 export interface CaseDetailPageProps {

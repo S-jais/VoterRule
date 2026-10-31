@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Input, Card, Alert } from '@matdata-setu/ui';
+import { Button, Input, Card, Alert } from '@voterrule/ui';
 import { useApp } from '../context/AppContext.js';
 
 export interface AuthPageProps {
@@ -422,7 +422,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({ currentPath, onNavigate }) =
               setUser({
                 id: 'synth-citizen-aarav-01',
                 displayName: 'Aarav Sharma (Demo Citizen)',
-                email: 'aarav.synthetic@demo.setu',
+                email: 'aarav.synthetic@demo.voterrule',
                 locale: 'en',
                 isStaff: false,
               });

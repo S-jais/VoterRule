@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { Locale, t, SUPPORTED_LANGUAGES } from '@matdata-setu/i18n';
+import { Locale, t, SUPPORTED_LANGUAGES } from '@voterrule/i18n';
 
 export type Theme = 'dark' | 'light';
 
@@ -32,7 +32,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [locale, setLocaleState] = useState<Locale>('en');
   const [theme, setThemeState] = useState<Theme>(() => {
     if (typeof window !== 'undefined') {
-      const savedTheme = localStorage.getItem('matdata_theme') as Theme | null;
+      const savedTheme = localStorage.getItem('voterrule_theme') as Theme | null;
       if (savedTheme === 'dark' || savedTheme === 'light') {
         return savedTheme;
       }
@@ -44,7 +44,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [liteMode, setLiteModeState] = useState<boolean>(false);
   const [user, setUserState] = useState<UserSession | null>(() => {
     if (typeof window !== 'undefined') {
-      const savedUser = localStorage.getItem('voterrule_user') || localStorage.getItem('matdata_user');
+      const savedUser = localStorage.getItem('voterrule_user') || localStorage.getItem('voterrule_user');
       if (savedUser) {
         try {
           return JSON.parse(savedUser);
@@ -64,7 +64,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         localStorage.setItem('voterrule_user', JSON.stringify(u));
       } else {
         localStorage.removeItem('voterrule_user');
-        localStorage.removeItem('matdata_user');
+        localStorage.removeItem('voterrule_user');
       }
     }
   };
@@ -72,7 +72,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   // Load preferences from localStorage safely & sync with DOM
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const savedTheme = (localStorage.getItem('voterrule_theme') || localStorage.getItem('matdata_theme')) as Theme | null;
+      const savedTheme = (localStorage.getItem('voterrule_theme') || localStorage.getItem('voterrule_theme')) as Theme | null;
       let effectiveTheme: Theme = theme;
       if (savedTheme === 'dark' || savedTheme === 'light') {
         effectiveTheme = savedTheme;
@@ -83,13 +83,13 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       setThemeState(effectiveTheme);
       document.documentElement.setAttribute('data-theme', effectiveTheme);
 
-      const savedLocale = (localStorage.getItem('voterrule_locale') || localStorage.getItem('matdata_locale')) as Locale | null;
+      const savedLocale = (localStorage.getItem('voterrule_locale') || localStorage.getItem('voterrule_locale')) as Locale | null;
       if (savedLocale && SUPPORTED_LANGUAGES.some((sl) => sl.code === savedLocale)) {
         setLocaleState(savedLocale);
         document.documentElement.lang = savedLocale;
         document.documentElement.dir = savedLocale === 'ur' ? 'rtl' : 'ltr';
       }
-      const savedLite = localStorage.getItem('voterrule_lite_mode') || localStorage.getItem('matdata_lite_mode');
+      const savedLite = localStorage.getItem('voterrule_lite_mode') || localStorage.getItem('voterrule_lite_mode');
       const isLite = savedLite === 'true';
       if (isLite) {
         setLiteModeState(true);

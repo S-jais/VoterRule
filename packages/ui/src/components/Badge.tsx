@@ -1,5 +1,5 @@
 import React from 'react';
-import { ProvenanceSourceType } from '@matdata-setu/shared';
+import { ProvenanceSourceType } from '@voterrule/shared';
 
 export interface BadgeProps {
   label: string;

@@ -6,7 +6,7 @@ import {
   PortalCaseStatus,
   StaffRole,
   validateCaseRef,
-} from '@matdata-setu/shared';
+} from '@voterrule/shared';
 import { buildApp } from '../app.js';
 
 describe('End-to-End API Functional & Security Journeys', () => {

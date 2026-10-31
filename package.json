@@ -1,13 +1,13 @@
 {
-  "name": "matdata-setu-monorepo",
+  "name": "voterrule-monorepo",
   "version": "1.0.0",
   "private": true,
-  "description": "Matdata Setu - Independent Electoral-Roll Verification and Inclusion-Assistance Portal",
+  "description": "VoterRule - Independent Electoral-Roll Verification and Inclusion-Assistance Portal",
   "scripts": {
     "dev": "pnpm --parallel --filter \"./apps/*\" dev",
     "build": "pnpm --filter \"./packages/*\" build && pnpm --filter \"./apps/*\" build",
     "test": "pnpm --recursive test",
-    "admin:bootstrap": "pnpm --filter @matdata-setu/api admin:bootstrap",
+    "admin:bootstrap": "pnpm --filter @voterrule/api admin:bootstrap",
     "lint": "pnpm --recursive lint",
     "clean": "pnpm --recursive exec rimraf dist .turbo node_modules"
   },

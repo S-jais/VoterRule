@@ -1,4 +1,4 @@
-import { FormCode } from '@matdata-setu/shared';
+import { FormCode } from '@voterrule/shared';
 import {
   GuidanceItem,
   RecommenderInput,

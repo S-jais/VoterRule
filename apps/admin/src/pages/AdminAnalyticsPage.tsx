@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Badge } from '@matdata-setu/ui';
+import { Card, Badge } from '@voterrule/ui';
 import { useAdmin } from '../context/AdminContext.js';
 
 export const AdminAnalyticsPage: React.FC = () => {

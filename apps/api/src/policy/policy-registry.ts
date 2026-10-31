@@ -1,4 +1,4 @@
-import { Action, Resource, can, ActorContext, ResourceContext } from '@matdata-setu/shared';
+import { Action, Resource, can, ActorContext, ResourceContext } from '@voterrule/shared';
 
 export interface RoutePolicyDefinition {
   method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
