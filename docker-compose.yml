@@ -1,0 +1,100 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: voterrule-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: voterrule
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgrespassword
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d voterrule"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  minio:
+    image: minio/minio:RELEASE.2024-01-18T22-51-28Z
+    container_name: voterrule-minio
+    restart: unless-stopped
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadminpassword
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio_data:/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  clamav:
+    image: clamav/clamav:1.3_base
+    container_name: voterrule-clamav
+    restart: unless-stopped
+    ports:
+      - "3310:3310"
+
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    container_name: voterrule-api
+    restart: unless-stopped
+    environment:
+      APP_MODE: demo
+      PORT: 4000
+      DATABASE_URL: postgresql://postgres:postgrespassword@postgres:5432/voterrule?sslmode=disable
+      ENCRYPTION_MASTER_KEY: 0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef
+      BLIND_INDEX_SALT: a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2
+      MATCH_TOKEN_SECRET: f1e2d3c4b5a6f1e2d3c4b5a6f1e2d3c4b5a6f1e2d3c4b5a6f1e2d3c4b5a6f1e2
+      JWT_SECRET: fedcba9876543210fedcba9876543210fedcba9876543210fedcba9876543210
+      S3_ENDPOINT: minio:9000
+      S3_BUCKET: voterrule-proofs
+      S3_ACCESS_KEY: minioadmin
+      S3_SECRET_KEY: minioadminpassword
+      S3_USE_SSL: "false"
+      CLAMAV_HOST: clamav
+      CLAMAV_PORT: 3310
+      CORS_ORIGINS: http://localhost:3000,http://localhost:4001
+    ports:
+      - "4000:4000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+    container_name: voterrule-web
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api
+
+  admin:
+    build:
+      context: .
+      dockerfile: apps/admin/Dockerfile
+    container_name: voterrule-admin
+    restart: unless-stopped
+    ports:
+      - "4001:4001"
+    depends_on:
+      - api
+
+volumes:
+  postgres_data:
+  minio_data:

@@ -1,0 +1,25 @@
+{
+  "name": "matdata-setu-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Matdata Setu - Independent Electoral-Roll Verification and Inclusion-Assistance Portal",
+  "scripts": {
+    "dev": "pnpm --parallel --filter \"./apps/*\" dev",
+    "build": "pnpm --filter \"./packages/*\" build && pnpm --filter \"./apps/*\" build",
+    "test": "pnpm --recursive test",
+    "admin:bootstrap": "pnpm --filter @matdata-setu/api admin:bootstrap",
+    "lint": "pnpm --recursive lint",
+    "clean": "pnpm --recursive exec rimraf dist .turbo node_modules"
+  },
+  "packageManager": "pnpm@9.0.0",
+  "pnpm": {
+    "overrides": {
+      "esbuild": "0.21.5"
+    }
+  },
+  "devDependencies": {
+    "@types/node": "^22.8.0",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.6.3"
+  }
+}

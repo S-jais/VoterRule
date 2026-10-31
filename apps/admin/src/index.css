@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #F8FAFC;
+  --surface: #FFFFFF;
+  --surface-2: #F1F5F9;
+  --line: #E2E8F0;
+  --line-strong: #CBD5E1;
+  --ink: #0B1030;
+  --ink-2: #334155;
+  --ink-3: #64748B;
+  --link: #000080;
+  --btn-bg: #000080;
+  --btn-bg-hover: #0A0A9E;
+  --btn-fg: #FFFFFF;
+}
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border-radius: 8px; font-weight: 600; text-decoration: none; border: 1.5px solid transparent; cursor: pointer; transition: all 0.15s ease; }
+.btn-primary { background: var(--btn-bg); color: var(--btn-fg); }
+.btn-primary:hover { background: var(--btn-bg-hover); }
+.btn-secondary { background: transparent; color: var(--ink); border-color: var(--ink); }
+.btn-secondary:hover { background: var(--surface-2); }
+.btn-outline { background: var(--surface); color: var(--ink); border-color: var(--line-strong); }
+.btn-outline:hover { background: var(--surface-2); border-color: var(--ink-3); }
+
+@layer base {
+  :focus-visible {
+    outline: 2px solid #000080;
+    outline-offset: 2px;
+  }
+}
