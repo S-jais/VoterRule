@@ -94,3 +94,4 @@ export const AdminHub: React.FC<AdminHubProps> = ({ onNavigate }) => {
     </AdminProvider>
   );
 };
+

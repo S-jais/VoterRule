@@ -14,7 +14,7 @@ describe('Citizen Web Application (apps/web) Tests', () => {
     expect(html).toContain('VoterRule');
     expect(html).toContain('Every Eligible Voter. Every Right. Every Voice.');
     expect(html).toContain('id="main-content"');
-    expect(html).toContain('DEMO MODE');
+    expect(html).toContain('class="tri"');
     expect(html.toLowerCase()).toContain('independent civic-assistance platform');
   });
 

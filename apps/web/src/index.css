@@ -187,16 +187,29 @@ html[lang="hi"] h2, html[lang="hi"] h3 { line-height: 1.3; letter-spacing: 0; }
 
 /* header */
 .site-head { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 30; background: var(--bg); border-bottom: 1px solid var(--line); transition: background-color 0.25s var(--ease), border-color 0.25s var(--ease); }
-.head-row { display: flex; align-items: center; gap: 16px; min-height: 68px; }
-.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); margin-right: auto; }
+.head-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 64px; flex-wrap: nowrap; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); margin-right: auto; flex-shrink: 0; }
 .brand svg { width: 38px; height: 38px; }
 .m-ring { fill: none; stroke: var(--mark-ring); }
 .brand-name { display: block; font-weight: 800; font-size: 1.2rem; line-height: 1.05; letter-spacing: -0.01em; white-space: nowrap; }
 .brand-dev { display: block; font-size: 0.8125rem; line-height: 1.2; color: var(--ink-3); font-family: 'Noto Sans Devanagari', var(--f-body); font-weight: 500; }
-.nav { display: flex; align-items: center; gap: 6px; }
-.nav a.nl { color: var(--ink-2); text-decoration: none; font-weight: 500; padding: 10px 12px; border-radius: 8px; min-height: 44px; display: inline-flex; align-items: center; font-size: 0.9688rem; transition: background-color 0.16s var(--ease), color 0.16s var(--ease); }
-.nav a.nl:hover { color: var(--ink); background: var(--surface-2); }
-.nav-actions { display: flex; align-items: center; gap: 10px; margin-left: 8px; }
+.nav { display: flex; align-items: center; gap: 4px; flex-wrap: nowrap; }
+.nav a.nl, .nav button.nl, .nav .nl {
+  color: var(--ink-2);
+  text-decoration: none;
+  font-weight: 500;
+  padding: 8px 10px;
+  border-radius: 8px;
+  min-height: 38px;
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.9375rem;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: background-color 0.16s var(--ease), color 0.16s var(--ease);
+}
+.nav a.nl:hover, .nav button.nl:hover, .nav .nl:hover { color: var(--ink); background: var(--surface-2); }
+.nav-actions { display: flex; align-items: center; gap: 8px; margin-left: 6px; flex-shrink: 0; white-space: nowrap; }
 .seg { display: inline-flex; border: 1.5px solid var(--line-strong); border-radius: 10px; padding: 2px; background: var(--surface); }
 .seg button { font: 600 0.875rem var(--f-body); color: var(--ink-2); background: none; border: 0; border-radius: 8px; min-height: 36px; min-width: 44px; padding: 0 10px; cursor: pointer; transition: background-color 0.16s var(--ease), color 0.16s var(--ease); }
 .seg button[aria-pressed="true"] { background: var(--btn-bg); color: var(--btn-fg); }
@@ -293,15 +306,17 @@ html[lang="hi"] h2, html[lang="hi"] h3 { line-height: 1.3; letter-spacing: 0; }
   position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  min-height: 44px;
-  padding: 0 8px;
+  gap: 8px;
+  min-height: 38px;
+  padding: 0 6px;
   background: none;
   border: 0;
   color: var(--ink-2);
   font: 500 0.9375rem var(--f-body);
   cursor: pointer;
   border-radius: 8px;
+  flex-shrink: 0;
+  white-space: nowrap;
   transition: color 0.16s var(--ease);
 }
 .lite:hover { color: var(--ink); }
@@ -347,7 +362,7 @@ html[lang="hi"] h2, html[lang="hi"] h3 { line-height: 1.3; letter-spacing: 0; }
 .btn-outline { background: var(--surface); color: var(--ink); border-color: var(--line-strong); }
 .btn-outline:hover { background: var(--surface-2); border-color: var(--ink-3); }
 .btn-ghost { color: var(--link); padding: 0 4px 0 0; text-decoration: underline; text-underline-offset: 5px; text-decoration-thickness: 1.5px; }
-.btn-sm { min-height: 44px; padding: 0 16px; font-size: 0.9375rem; }
+.btn-sm { min-height: 38px; padding: 0 12px; font-size: 0.875rem; white-space: nowrap; flex-shrink: 0; }
 
 @media (max-width: 959px) {
   .head-row { justify-content: space-between; gap: 10px; }

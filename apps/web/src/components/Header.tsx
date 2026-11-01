@@ -48,34 +48,31 @@ export const Header: React.FC<HeaderProps> = ({ currentPath, onNavigate }) => {
   };
 
   const navLabels: Record<string, { services: string; how: string; privacy: string; method: string; app: string }> = {
-    en: { services: 'Services', how: 'How it works', privacy: 'Privacy', method: 'Methodology', app: 'Citizen App' },
-    hi: { services: 'सेवाएँ', how: 'यह कैसे काम करता है', privacy: 'गोपनीयता', method: 'कार्यप्रणाली', app: 'नागरिक पोर्टल' },
-    bn: { services: 'সেবাসমূহ', how: 'এটি কীভাবে কাজ করে', privacy: 'গোপনীয়তা', method: 'পদ্ধতি', app: 'নাগরিক পোর্টাল' },
-    mr: { services: 'सेवा', how: 'हे कसे कार्य करते', privacy: 'गोपनीयता', method: 'कार्यपद्धती', app: 'नागरीक पोर्टल' },
-    ta: { services: 'சேவைகள்', how: 'இது எவ்வாறு செயல்படுகிறது', privacy: 'தனியுரிமை', method: 'செயல்முறை', app: 'குடிமக்கள் தளம்' },
-    te: { services: 'సేవలు', how: 'ఇది ఎలా పనిచేస్తుంది', privacy: 'గోప్యత', method: 'విధానం', app: 'పౌర పోర్టల్' },
-    gu: { services: 'સેવાઓ', how: 'આ કેવી રીતે કાર્ય કરે છે', privacy: 'ગોપનીયતા', method: 'કાર્યપદ્ધતિ', app: 'નાગરિક પોર્ટલ' },
-    kn: { services: 'ಸೇವೆಗಳು', how: 'ಇದು ಹೇಗೆ ಕಾರ್ಯನಿರ್ವಹಿಸುತ್ತದೆ', privacy: 'ಗೌಪ್ಯತೆ', method: 'ವಿಧಾನ', app: 'ನಾಗರಿಕ ಪೋರ್ಟಲ್' },
-    ml: { services: 'സേവനങ്ങൾ', how: 'ഇത് എങ്ങനെ പ്രവർത്തിക്കുന്നു', privacy: 'സ്വകാര്യത', method: 'രീതിശാസ്ത്രം', app: 'പൗര പോർട്ടൽ' },
-    pa: { services: 'ਸੇਵਾਵਾਂ', how: 'ਇਹ ਕਿਵੇਂ ਕੰਮ ਕਰਦਾ ਹੈ', privacy: 'ਨਿੱਜਤਾ', method: 'ਕਾਰਜਪ੍ਰਣਾਲੀ', app: 'ਨਾਗਰਿਕ ਪੋਰਟਲ' },
-    or: { services: 'ସେବାସମୂହ', how: 'ଏହା କିପରି କାର୍ଯ୍ୟ କରେ', privacy: 'ଗୋପନୀୟତା', method: 'ପଦ୍ଧତି', app: 'ନାଗରିକ ପୋର୍ଟାଲ' },
-    as: { services: 'সেৱাসমূহ', how: 'ই কেনেকৈ কাম কৰে', privacy: 'গোপনীয়তা', method: 'পদ্ধতি', app: 'নাগৰিক প\'ৰ্টেল' },
-    kok: { services: 'सेवा', how: 'हें कशें काम करता', privacy: 'गोपनीयता', method: 'कार्यपद्धत', app: 'नागरीक पोर्टल' },
-    ur: { services: 'خدمات', how: 'یہ کیسے کام کرتا ہے', privacy: 'رازداری', method: 'طریقہ کار', app: 'شہری پورٹل' },
+    en: { services: 'Services', how: 'Working', privacy: 'Privacy', method: 'Methodology', app: 'Portal' },
+    hi: { services: 'सेवाएँ', how: 'कार्यविधि', privacy: 'गोपनीयता', method: 'कार्यप्रणाली', app: 'पोर्टल' },
+    bn: { services: 'সেবাসমূহ', how: 'কার্যপদ্ধতি', privacy: 'গোপনীয়তা', method: 'পদ্ধতি', app: 'পোর্টাল' },
+    mr: { services: 'सेवा', how: 'कार्यपद्धती', privacy: 'गोपनीयता', method: 'कार्यपद्धती', app: 'पोर्टल' },
+    ta: { services: 'சேவைகள்', how: 'செயல்முறை', privacy: 'தனியுரிமை', method: 'நெறிமுறை', app: 'போர்டல்' },
+    te: { services: 'సేవలు', how: 'కార్యవిధానం', privacy: 'గోప్యత', method: 'విధానం', app: 'పోర్టల్' },
+    gu: { services: 'સેવાઓ', how: 'કાર્યપદ્ધતિ', privacy: 'ગોપનીયતા', method: 'રીત', app: 'પોર્ટલ' },
+    kn: { services: 'ಸೇವೆಗಳು', how: 'ಕಾರ್ಯವಿಧಾನ', privacy: 'ಗೌಪ್ಯತೆ', method: 'ವಿಧಾನ', app: 'ಪೋರ್ಟಲ್' },
+    ml: { services: 'സേവനങ്ങൾ', how: 'പ്രവർത്തനം', privacy: 'സ്വകാര്യത', method: 'രീതി', app: 'പോർട്ടൽ' },
+    pa: { services: 'ਸੇਵਾਵਾਂ', how: 'ਕਾਰਜਪ੍ਰਣਾਲੀ', privacy: 'ਨਿੱਜਤਾ', method: 'ਢੰਗ', app: 'ਪੋਰਟਲ' },
+    or: { services: 'ସେବାସମୂହ', how: 'କାର୍ଯ୍ୟପ୍ରଣାଳୀ', privacy: 'ଗୋପନୀୟତା', method: 'ପଦ୍ଧତି', app: 'ପୋର୍ଟାଲ' },
+    as: { services: 'সেৱাসমূহ', how: 'কাৰ্যপদ্ধতি', privacy: 'গোপনীয়তা', method: 'পদ্ধতি', app: 'প\'ৰ্টেল' },
+    kok: { services: 'सेवा', how: 'कार्यपद्धत', privacy: 'गोपनीयता', method: 'कार्यपद्धत', app: 'पोर्टल' },
+    ur: { services: 'خدمات', how: 'طریقۂ کار', privacy: 'رازداری', method: 'طریقہ کار', app: 'پورٹل' },
   };
 
   const nav = navLabels[locale] || navLabels.en || {
     services: 'Services',
-    how: 'How it works',
+    how: 'Working',
     privacy: 'Privacy',
     method: 'Methodology',
-    app: 'Citizen App',
+    app: 'Portal',
   };
   const menuBtnText = menuLabels[locale] || 'Menu';
   const brandDevName = (t(locale, 'common.appName').split('(')[0] || '').trim();
-  const demoBannerText = t(locale, 'common.demoModeBanner');
-  const demoBannerPrefix = demoBannerText.includes(':') ? (demoBannerText.split(':')[0] || 'DEMO MODE') : 'DEMO MODE';
-  const independentText = t(locale, 'common.independentNotice');
   const loginText = locale === 'en' ? 'Log In' : t(locale, 'auth.signInBtn');
   const signupText = locale === 'en' ? 'Sign Up' : t(locale, 'auth.registerBtn');
 
@@ -84,14 +81,6 @@ export const Header: React.FC<HeaderProps> = ({ currentPath, onNavigate }) => {
       <a className="skip" href="#main-content">
         {t(locale, 'common.skipToContent')}
       </a>
-
-      {/* Top Demo Banner Strip */}
-      <div className="strip" role="note">
-        <div className="wrap">
-          <b>{demoBannerPrefix}</b>
-          <span>{independentText}</span>
-        </div>
-      </div>
 
       {/* Tricolor Accent Stripe */}
       <div className="tri" aria-hidden="true" />
@@ -206,22 +195,13 @@ export const Header: React.FC<HeaderProps> = ({ currentPath, onNavigate }) => {
                 className="lite"
                 id="theme-toggle"
                 aria-pressed={theme === 'dark'}
+                aria-label={theme === 'dark' ? 'Switch to Light mode' : 'Switch to Dark mode'}
                 onClick={toggleTheme}
                 title={theme === 'dark' ? 'Switch to Light mode' : 'Switch to Dark mode'}
               >
                 <span className="track" aria-hidden="true" />
-                <span className="flex items-center gap-1.5 font-medium select-none">
-                  {theme === 'dark' ? (
-                    <>
-                      <span aria-hidden="true">🌙</span>
-                      <span>Dark mode</span>
-                    </>
-                  ) : (
-                    <>
-                      <span aria-hidden="true">☀️</span>
-                      <span>Light mode</span>
-                    </>
-                  )}
+                <span className="text-base select-none leading-none" aria-hidden="true">
+                  {theme === 'dark' ? '🌙' : '☀️'}
                 </span>
                 <span className={`pulse ${theme === 'dark' ? 'go' : ''}`} id="pulse" aria-hidden="true" />
               </button>
