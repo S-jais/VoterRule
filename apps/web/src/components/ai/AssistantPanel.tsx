@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ChakraMark } from '@voterrule/ui';
+import { BallotSlotLogo } from '@voterrule/ui';
 import { VoiceController, VoiceState } from './VoiceController.js';
 import { ActionExecutor, ActionPayload } from './ActionExecutor.js';
 import { MessageBubble, ActionItem } from './MessageBubble.js';
@@ -344,8 +344,8 @@ export const AssistantPanel: React.FC<AssistantPanelProps> = ({
         {/* Header */}
         <header className="flex items-center justify-between px-4 py-3 border-b border-[var(--line-strong)] bg-[var(--surface-2)]">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-full bg-[#000080]/10 flex items-center justify-center border border-[#000080]/20">
-              <ChakraMark size={22} ringColor="#000080" />
+            <div className="w-9 h-9 rounded-xl bg-[#000080]/10 flex items-center justify-center border border-[#000080]/20 p-1">
+              <BallotSlotLogo size={26} inkColor="#000080" />
             </div>
             <div className="flex flex-col">
               <div className="flex items-center gap-1.5">
@@ -471,7 +471,7 @@ export const AssistantPanel: React.FC<AssistantPanelProps> = ({
           {/* Loading Indicator */}
           {loading && (
             <div className="flex items-center gap-2 py-2 px-3 rounded-xl bg-[var(--surface-2)] border border-[var(--line)] w-fit text-xs text-[var(--ink-2)] animate-pulse">
-              <ChakraMark size={16} ringColor="#000080" />
+              <BallotSlotLogo size={18} inkColor="#000080" />
               <span>VoteRule AI is consulting statutory records...</span>
             </div>
           )}

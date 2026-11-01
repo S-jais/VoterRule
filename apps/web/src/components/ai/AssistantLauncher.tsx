@@ -1,5 +1,5 @@
 import React from 'react';
-import { ChakraMark } from '@voterrule/ui';
+import { BallotSlotLogo } from '@voterrule/ui';
 import { VoiceState } from './VoiceController.js';
 
 export interface AssistantLauncherProps {
@@ -52,9 +52,11 @@ export const AssistantLauncher: React.FC<AssistantLauncherProps> = ({
           </svg>
         ) : (
           <div className="relative flex items-center justify-center">
-            <ChakraMark
-              size={32}
-              ringColor={isListening ? '#FFFFFF' : isSpeaking ? '#FFFFFF' : '#000080'}
+            <BallotSlotLogo
+              size={34}
+              inkColor={isListening ? '#FFFFFF' : isSpeaking ? '#FFFFFF' : '#000080'}
+              slotColor={isListening ? '#FFFFFF' : isSpeaking ? '#FFFFFF' : '#000080'}
+              aria-label="VoteRule AI Assistant"
             />
             {/* Listening indicator dot */}
             {isListening && (

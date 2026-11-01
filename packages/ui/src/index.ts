@@ -1,5 +1,6 @@
 export * from './tokens.js';
 export * from './brand/ChakraMark.js';
+export * from './brand/BallotSlotLogo.js';
 export * from './brand/BrandWordmark.js';
 export * from './motion/TricolorCivicFlow.js';
 export * from './motion/AshokaChakraProgressRing.js';

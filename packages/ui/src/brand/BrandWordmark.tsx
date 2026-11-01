@@ -1,22 +1,29 @@
 import React from 'react';
+import { BallotSlotLogo } from './BallotSlotLogo.js';
 import { ChakraMark } from './ChakraMark.js';
 
 export interface BrandWordmarkProps {
   className?: string;
   size?: 'sm' | 'md' | 'lg';
   hideTagline?: boolean;
+  markType?: 'ballot_slot' | 'chakra';
 }
 
 export const BrandWordmark: React.FC<BrandWordmarkProps> = ({
   className = '',
   size = 'md',
   hideTagline = false,
+  markType = 'ballot_slot',
 }) => {
   const markSizes = { sm: 32, md: 38, lg: 48 };
 
   return (
     <div className={`brand flex items-center gap-2.5 ${className}`}>
-      <ChakraMark size={markSizes[size]} ringColor="var(--mark-ring, #000080)" />
+      {markType === 'ballot_slot' ? (
+        <BallotSlotLogo size={markSizes[size]} inkColor="var(--mark-ring, #000080)" />
+      ) : (
+        <ChakraMark size={markSizes[size]} ringColor="var(--mark-ring, #000080)" />
+      )}
       <div className="flex flex-col">
         <span className="brand-name font-display font-extrabold text-[1.2rem] leading-none tracking-tight text-[var(--ink)]">
           VoterRule

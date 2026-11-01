@@ -1,5 +1,5 @@
 import React from 'react';
-import { ChakraMark } from '@voterrule/ui';
+import { BallotSlotLogo } from '@voterrule/ui';
 
 export interface CitationItem {
   id: string;
@@ -105,8 +105,8 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
       <div className={`flex gap-2.5 max-w-[88%] sm:max-w-[80%] ${isUser ? 'flex-row-reverse' : 'flex-row'}`}>
         {!isUser && (
           <div className="flex-shrink-0 mt-1">
-            <div className="w-7 h-7 rounded-full bg-[#000080]/10 flex items-center justify-center border border-[#000080]/20">
-              <ChakraMark size={20} ringColor="#000080" />
+            <div className="w-7 h-7 rounded-lg bg-[#000080]/10 flex items-center justify-center border border-[#000080]/20 p-0.5">
+              <BallotSlotLogo size={20} inkColor="#000080" />
             </div>
           </div>
         )}
