@@ -33,7 +33,10 @@ export class IntentClassifier {
     }
 
     // 3. Greetings
-    if (/^(hi|hello|hey|namaste|pranam|good\s*(morning|afternoon|evening)|kese\s*ho|who\s*are\s*you)\b/i.test(lower) && lower.split(/\s+/).length <= 4) {
+    if (
+      /\b(hi|hello|hey|namaste|pranam|good\s*(morning|afternoon|evening)|kese\s*ho|who\s*are\s*you|how\s*are\s*you)\b/i.test(lower) &&
+      !/\b(check|missing|duplicate|form\s*\d|delete|status|eligible|eligibility|deceased)\b/i.test(lower)
+    ) {
       return {
         intent: 'greeting',
         confidence: 0.95,
@@ -86,6 +89,22 @@ export class IntentClassifier {
         needsConfirmation: false,
         needsHuman: false,
         extractedEntities: { routeId },
+      };
+    }
+
+    // 5b. Roll Status Check & Verification Requests
+    if (
+      /\b(check\s*(my\s*)?(voter\s*)?(registration|status|card|name|roll)|verify\s*(my\s*)?(voter\s*)?(registration|status|roll)|am\s*i\s*registered|search\s*(my\s*)?(name|epic|voter)|naam\s*check|status\s*check|voter\s*list\s*mein\s*naam)\b/i.test(lower)
+    ) {
+      return {
+        intent: 'voter_registration_guidance',
+        confidence: 0.95,
+        language,
+        needsRetrieval: true,
+        needsAction: true,
+        needsConfirmation: false,
+        needsHuman: false,
+        extractedEntities: { formCode: 'STATUS_CHECK', routeId: 'check_voter_status' },
       };
     }
 

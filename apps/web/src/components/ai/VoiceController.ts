@@ -295,11 +295,16 @@ export class VoiceController {
     });
 
     if (!res.ok) return '';
-    const json = (await res.json()) as any;
-    if (json.data?.fallbackToBrowser) {
+    let json: any = null;
+    try {
+      json = await res.json();
+    } catch {
       return '';
     }
-    return json.data?.text || '';
+    if (json?.data?.fallbackToBrowser) {
+      return '';
+    }
+    return json?.data?.text || '';
   }
 
   private blobToBase64(blob: Blob): Promise<string> {

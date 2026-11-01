@@ -138,7 +138,29 @@ export class RuleBasedLLMProvider implements LLMProvider {
 
       case 'voter_registration_guidance': {
         const formCode = classification.extractedEntities?.formCode || 'FORM_6';
-        if (formCode === 'FORM_6') {
+        if (formCode === 'STATUS_CHECK') {
+          if (isHindi) {
+            displayText = `**मतदाता सूची स्थिति सत्यापन:**\n\n- **आधिकारिक प्रक्रिया:** आप अपने **EPIC नंबर** (मतदाता पहचान पत्र संख्या) या व्यक्तिगत विवरण द्वारा आधिकारिक निर्वाचन आयोग पोर्टल (\`voters.eci.gov.in\`) पर स्थिति की जांच कर सकते हैं।\n- **VoteRule सहायता:** VoteRule आपके खोज विवरण का एक स्वतंत्र रिकॉर्ड सुरक्षित रखने में मदद करता है ताकि यदि कभी आपका नाम अचानक गायब हो तो आपके पास प्रमाण रहे।\n- **गोपनीयता:** VoteRule कभी भी कैप्चा बाईपास नहीं करता और न ही आधार नंबर मांगता है।`;
+            spokenText = `आप अपने EPIC नंबर से आधिकारिक मतदाता सूची में अपना नाम जांच सकते हैं। स्थिति जांच टूल खोलने के लिए नीचे टैप करें।`;
+            actions.push({
+              id: 'act-nav-check',
+              type: 'navigate_to',
+              label: 'मतदाता स्थिति जांचें',
+              payload: { routeId: 'check_voter_status' },
+            });
+            suggestedPrompts.push('EPIC नंबर के बिना कैसे खोजें?', 'मेरा नाम मतदाता सूची में नहीं है');
+          } else {
+            displayText = `**Electoral Roll Status Verification:**\n\n- **Official Verification:** You can verify your enrollment on the official ECI portal (\`voters.eci.gov.in\`) using your **EPIC Number** (Voter ID card number) or State & Assembly Constituency details.\n- **VoteRule Assistance:** VoteRule provides a structured workflow to record your verification timestamp and search details, creating an independent verifiable record.\n- **Statutory Safeguard:** A missing search result does not automatically mean illegal deletion—names may be registered under alternative spellings or part numbers.`;
+            spokenText = `You can verify your electoral roll registration using your EPIC number. Tap below to open the Status Check page.`;
+            actions.push({
+              id: 'act-nav-check',
+              type: 'navigate_to',
+              label: 'Open Status Check Tool',
+              payload: { routeId: 'check_voter_status' },
+            });
+            suggestedPrompts.push('How to search without an EPIC number?', 'My name is missing from the voter list');
+          }
+        } else if (formCode === 'FORM_6') {
           displayText = `**Form 6 (Application for Inclusion of Name):**\n\n- **Purpose:** For first-time electors turning 18 or citizens whose names were omitted from the roll.\n- **Key Documents:** Proof of Date of Birth (Birth Certificate, Aadhaar, PAN, Passport) and Proof of Residence (Electricity/Water bill, Bank Passbook, Passport).\n- **Submission:** Online at \`voters.eci.gov.in\` or in person to your Booth Level Officer (BLO) / ERO.`;
           spokenText = `Form 6 is the official application to enroll your name in the electoral roll. It requires proof of birth date and proof of address.`;
         } else if (formCode === 'FORM_8') {
