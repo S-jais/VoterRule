@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "pnpm --parallel --filter \"./apps/*\" dev",
     "build": "pnpm --filter \"./packages/*\" build && pnpm --filter \"./apps/*\" build",
+    "build:web": "pnpm --filter \"./packages/*\" build && pnpm --filter @voterrule/web build",
     "test": "pnpm --recursive test",
     "admin:bootstrap": "pnpm --filter @voterrule/api admin:bootstrap",
     "ai:gen-app-map": "pnpm --filter @voterrule/api exec tsx ../../scripts/gen-app-map.ts",
