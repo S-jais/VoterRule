@@ -41,6 +41,9 @@ export const AssistantPanel: React.FC<AssistantPanelProps> = ({
   const [voiceState, setVoiceState] = useState<VoiceState>('IDLE');
   const [interimTranscript, setInterimTranscript] = useState('');
   const [autoSpeak, setAutoSpeak] = useState(true);
+  const [continuousVoice, setContinuousVoice] = useState(true);
+  const [continuousVoiceActive, setContinuousVoiceActive] = useState(false);
+  const [voiceNotice, setVoiceNotice] = useState<string | null>(null);
   const [speechRate, setSpeechRate] = useState(1.0);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [confirmDialog, setConfirmDialog] = useState<{
@@ -62,6 +65,33 @@ export const AssistantPanel: React.FC<AssistantPanelProps> = ({
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const voiceControllerRef = useRef<VoiceController | null>(null);
   const actionExecutorRef = useRef<ActionExecutor | null>(null);
+  const continuousVoiceRef = useRef(continuousVoice);
+  const continuousVoiceActiveRef = useRef(continuousVoiceActive);
+  const isOpenRef = useRef(isOpen);
+  const voiceStateRef = useRef<VoiceState>(voiceState);
+  const silenceCountRef = useRef(0);
+
+  useEffect(() => {
+    continuousVoiceRef.current = continuousVoice;
+  }, [continuousVoice]);
+
+  useEffect(() => {
+    continuousVoiceActiveRef.current = continuousVoiceActive;
+  }, [continuousVoiceActive]);
+
+  useEffect(() => {
+    voiceStateRef.current = voiceState;
+  }, [voiceState]);
+
+  useEffect(() => {
+    isOpenRef.current = isOpen;
+    if (!isOpen) {
+      setContinuousVoiceActive(false);
+      continuousVoiceActiveRef.current = false;
+      silenceCountRef.current = 0;
+      voiceControllerRef.current?.cancelListening();
+    }
+  }, [isOpen]);
 
   // Initialize VoiceController & ActionExecutor
   useEffect(() => {
@@ -84,14 +114,39 @@ export const AssistantPanel: React.FC<AssistantPanelProps> = ({
       speechRate,
       onStateChange: (state, detail) => {
         setVoiceState(state);
+        voiceStateRef.current = state;
         if (state === 'ERROR' && detail) {
           setErrorBanner(detail);
         }
+        if (state === 'PERMISSION_DENIED') {
+          setContinuousVoiceActive(false);
+          continuousVoiceActiveRef.current = false;
+        }
       },
-      onInterimTranscript: (text) => setInterimTranscript(text),
+      onInterimTranscript: (text) => {
+        silenceCountRef.current = 0;
+        setInterimTranscript(text);
+      },
       onFinalTranscript: (text) => {
+        silenceCountRef.current = 0;
         setInterimTranscript('');
         handleSendMessage(text);
+      },
+      onSilenceTimeout: () => {
+        if (!continuousVoiceActiveRef.current || !isOpenRef.current) return;
+        if (silenceCountRef.current < 2) {
+          silenceCountRef.current += 1;
+          setTimeout(() => {
+            if (continuousVoiceActiveRef.current && isOpenRef.current && voiceStateRef.current === 'IDLE') {
+              voiceControllerRef.current?.startListening();
+            }
+          }, 350);
+        } else {
+          setContinuousVoiceActive(false);
+          continuousVoiceActiveRef.current = false;
+          silenceCountRef.current = 0;
+          setVoiceNotice('Hands-free paused after inactivity. Tap mic to resume speaking.');
+        }
       },
       onError: (err) => {
         setErrorBanner(`Voice input error: ${err}`);
@@ -99,8 +154,9 @@ export const AssistantPanel: React.FC<AssistantPanelProps> = ({
     });
 
     return () => {
-      voiceControllerRef.current?.stopListening();
-      voiceControllerRef.current?.stopSpeaking();
+      setContinuousVoiceActive(false);
+      continuousVoiceActiveRef.current = false;
+      voiceControllerRef.current?.cancelListening();
     };
   }, []);
 
@@ -152,12 +208,12 @@ export const AssistantPanel: React.FC<AssistantPanelProps> = ({
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && isOpen) {
-        onClose();
+        handleClose();
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, onClose]);
+  }, [isOpen]);
 
   const safeParseResponse = async (res: Response) => {
     let json: any = null;
@@ -240,9 +296,25 @@ export const AssistantPanel: React.FC<AssistantPanelProps> = ({
         setSuggestedQuestions(json.data.message.suggestedPrompts);
       }
 
-      // Voice Output: speak if enabled
+      // Voice Output: speak if enabled, then auto-resume listening if continuous hands-free is active
       if (autoSpeak && aiMsg?.spokenText) {
-        voiceControllerRef.current?.speak(aiMsg.spokenText);
+        voiceControllerRef.current?.speak(aiMsg.spokenText, () => {
+          if (continuousVoiceActiveRef.current && isOpenRef.current) {
+            setTimeout(() => {
+              if (continuousVoiceActiveRef.current && isOpenRef.current) {
+                voiceControllerRef.current?.startListening();
+              }
+            }, 400);
+          }
+        });
+      } else {
+        if (continuousVoiceActiveRef.current && isOpenRef.current) {
+          setTimeout(() => {
+            if (continuousVoiceActiveRef.current && isOpenRef.current) {
+              voiceControllerRef.current?.startListening();
+            }
+          }, 800);
+        }
       }
     } catch (err: any) {
       console.error(err);
@@ -294,7 +366,23 @@ export const AssistantPanel: React.FC<AssistantPanelProps> = ({
         setMessages((prev) => [...prev, assistantMessage]);
 
         if (autoSpeak && aiMsg.spokenText) {
-          voiceControllerRef.current?.speak(aiMsg.spokenText);
+          voiceControllerRef.current?.speak(aiMsg.spokenText, () => {
+            if (continuousVoiceActiveRef.current && isOpenRef.current) {
+              setTimeout(() => {
+                if (continuousVoiceActiveRef.current && isOpenRef.current) {
+                  voiceControllerRef.current?.startListening();
+                }
+              }, 400);
+            }
+          });
+        } else {
+          if (continuousVoiceActiveRef.current && isOpenRef.current) {
+            setTimeout(() => {
+              if (continuousVoiceActiveRef.current && isOpenRef.current) {
+                voiceControllerRef.current?.startListening();
+              }
+            }, 800);
+          }
         }
       }
     } catch (err: any) {
@@ -322,10 +410,47 @@ export const AssistantPanel: React.FC<AssistantPanelProps> = ({
     }
   };
 
+  const handleClose = () => {
+    setContinuousVoiceActive(false);
+    continuousVoiceActiveRef.current = false;
+    silenceCountRef.current = 0;
+    voiceControllerRef.current?.cancelListening();
+    onClose();
+  };
+
+  const handleToggleContinuousMode = () => {
+    const nextVal = !continuousVoice;
+    setContinuousVoice(nextVal);
+    continuousVoiceRef.current = nextVal;
+    if (!nextVal && continuousVoiceActive) {
+      setContinuousVoiceActive(false);
+      continuousVoiceActiveRef.current = false;
+    }
+  };
+
   const handleMicToggle = () => {
     if (voiceState === 'LISTENING') {
+      // User clicked mic while listening -> stop listening and stop hands-free loop
+      setContinuousVoiceActive(false);
+      continuousVoiceActiveRef.current = false;
+      silenceCountRef.current = 0;
       voiceControllerRef.current?.stopListening();
+    } else if (voiceState === 'SPEAKING') {
+      // Barge-in: user tapped mic while AI is speaking aloud
+      voiceControllerRef.current?.stopSpeaking();
+      if (continuousVoice) {
+        setContinuousVoiceActive(true);
+        continuousVoiceActiveRef.current = true;
+        silenceCountRef.current = 0;
+      }
+      voiceControllerRef.current?.startListening();
     } else {
+      // User clicked mic once to speak: activate continuous hands-free conversation!
+      if (continuousVoice) {
+        setContinuousVoiceActive(true);
+        continuousVoiceActiveRef.current = true;
+        silenceCountRef.current = 0;
+      }
       voiceControllerRef.current?.startListening();
     }
   };
@@ -390,7 +515,7 @@ export const AssistantPanel: React.FC<AssistantPanelProps> = ({
             {/* Close Button */}
             <button
               type="button"
-              onClick={onClose}
+              onClick={handleClose}
               className="p-1.5 rounded-lg text-[var(--ink-2)] hover:bg-[var(--surface)]"
               title="Close Assistant"
               aria-label="Close Assistant"
@@ -408,6 +533,8 @@ export const AssistantPanel: React.FC<AssistantPanelProps> = ({
           <SettingsMenu
             autoSpeak={autoSpeak}
             onToggleAutoSpeak={() => setAutoSpeak(!autoSpeak)}
+            continuousVoice={continuousVoice}
+            onToggleContinuousVoice={handleToggleContinuousMode}
             speechRate={speechRate}
             onSelectSpeechRate={(r) => setSpeechRate(r)}
             onClearHistory={handleClearHistory}
@@ -495,6 +622,11 @@ export const AssistantPanel: React.FC<AssistantPanelProps> = ({
             voiceState={voiceState}
             interimTranscript={interimTranscript}
             onMicToggle={handleMicToggle}
+            continuousVoice={continuousVoice}
+            continuousVoiceActive={continuousVoiceActive}
+            onToggleContinuousMode={handleToggleContinuousMode}
+            voiceNotice={voiceNotice}
+            onDismissVoiceNotice={() => setVoiceNotice(null)}
             disabled={loading}
           />
         </div>

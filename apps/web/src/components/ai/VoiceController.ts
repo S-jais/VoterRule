@@ -13,6 +13,7 @@ export interface VoiceControllerOptions {
   onInterimTranscript: (text: string) => void;
   onFinalTranscript: (text: string) => void;
   onError: (errorMsg: string) => void;
+  onSilenceTimeout?: () => void;
   locale?: string;
   speechRate?: number;
   useWhisperStt?: boolean;
@@ -71,7 +72,11 @@ export class VoiceController {
         this.transitionTo('LISTENING');
         // Watchdog: auto-stop after 12 seconds of silence
         this.watchdogTimer = setTimeout(() => {
+          const hadSpeech = !!this.pendingWebSpeechFinal.trim() || this.audioChunks.length > 0;
           this.stopListening();
+          if (!hadSpeech) {
+            this.options.onSilenceTimeout?.();
+          }
         }, 12000);
       };
 
@@ -113,7 +118,11 @@ export class VoiceController {
       this.recognition.onend = () => {
         this.clearWatchdog();
         if (this.state === 'LISTENING') {
+          const hadSpeech = !!this.pendingWebSpeechFinal.trim();
           this.transitionTo('IDLE');
+          if (!hadSpeech) {
+            this.options.onSilenceTimeout?.();
+          }
         }
       };
     } catch (err: any) {
@@ -276,6 +285,49 @@ export class VoiceController {
     if (this.state === 'LISTENING') {
       this.transitionTo('IDLE');
     }
+  }
+
+  /**
+   * Cancel and fully release all listening resources (mic, streams, recognizers)
+   * without emitting any pending transcripts. Useful when user closes/exits the chatbot.
+   */
+  public cancelListening(): void {
+    this.clearWatchdog();
+    this.pendingWebSpeechFinal = '';
+    this.audioChunks = [];
+
+    if (this.recognition) {
+      try {
+        this.recognition.abort();
+      } catch {
+        // ignore
+      }
+    }
+
+    if (this.mediaRecorder) {
+      try {
+        this.mediaRecorder.ondataavailable = null;
+        this.mediaRecorder.onstop = null;
+        if (this.mediaRecorder.state !== 'inactive') {
+          this.mediaRecorder.stop();
+        }
+      } catch {
+        // ignore
+      }
+      this.mediaRecorder = null;
+    }
+
+    if (this.mediaStream) {
+      try {
+        this.mediaStream.getTracks().forEach((track) => track.stop());
+      } catch {
+        // ignore
+      }
+      this.mediaStream = null;
+    }
+
+    this.stopSpeaking();
+    this.transitionTo('IDLE');
   }
 
   private async sendAudioToWhisper(blob: Blob): Promise<string> {

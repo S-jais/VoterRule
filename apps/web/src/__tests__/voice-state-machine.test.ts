@@ -248,5 +248,68 @@ describe('VoiceController & State Machine Tests', () => {
     expect(controller.getState()).toBe('ERROR');
     expect(onError).toHaveBeenCalledWith('network');
   });
+
+  it('cancelListening cleanly aborts recognition, stops speech, and resets state without emitting transcripts', () => {
+    const onFinal = vi.fn();
+    controller = new VoiceController({
+      onStateChange: (s) => states.push(s),
+      onInterimTranscript: vi.fn(),
+      onFinalTranscript: onFinal,
+      onError: vi.fn(),
+    });
+
+    controller.startListening();
+    mockRecognitionInstance.onstart();
+    expect(controller.getState()).toBe('LISTENING');
+
+    controller.cancelListening();
+    expect(mockRecognitionInstance.abort).toHaveBeenCalled();
+    expect(mockSpeechSynthesis.cancel).toHaveBeenCalled();
+    expect(controller.getState()).toBe('IDLE');
+    expect(onFinal).not.toHaveBeenCalled();
+  });
+
+  it('triggers onSilenceTimeout when silence watchdog expires without speech in continuous mode', () => {
+    const onSilence = vi.fn();
+    controller = new VoiceController({
+      onStateChange: (s) => states.push(s),
+      onInterimTranscript: vi.fn(),
+      onFinalTranscript: vi.fn(),
+      onError: vi.fn(),
+      onSilenceTimeout: onSilence,
+    });
+
+    controller.startListening();
+    mockRecognitionInstance.onstart();
+
+    // Advance 12s silence watchdog
+    vi.advanceTimersByTime(12000);
+    expect(onSilence).toHaveBeenCalled();
+    expect(mockRecognitionInstance.stop).toHaveBeenCalled();
+  });
+
+  it('invokes onEndCallback after speaking ends to facilitate continuous hands-free conversation', () => {
+    controller = new VoiceController({
+      onStateChange: (s) => states.push(s),
+      onInterimTranscript: vi.fn(),
+      onFinalTranscript: vi.fn(),
+      onError: vi.fn(),
+    });
+
+    const onSpeakEnd = vi.fn();
+    let capturedUtterance: any = null;
+    mockSpeechSynthesis.speak = vi.fn((utt) => {
+      capturedUtterance = utt;
+      utt.onstart?.();
+    });
+
+    controller.speak('Form 6 is used for new voter enrollment.', onSpeakEnd);
+    expect(controller.getState()).toBe('SPEAKING');
+
+    // Simulate completion of speech
+    capturedUtterance.onend?.();
+    expect(controller.getState()).toBe('IDLE');
+    expect(onSpeakEnd).toHaveBeenCalled();
+  });
 });
 

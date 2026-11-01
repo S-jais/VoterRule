@@ -8,6 +8,11 @@ export interface ComposerProps {
   voiceState: VoiceState;
   interimTranscript: string;
   onMicToggle: () => void;
+  continuousVoice?: boolean;
+  continuousVoiceActive?: boolean;
+  onToggleContinuousMode?: () => void;
+  voiceNotice?: string | null;
+  onDismissVoiceNotice?: () => void;
   disabled?: boolean;
 }
 
@@ -16,6 +21,11 @@ export const Composer: React.FC<ComposerProps> = ({
   voiceState,
   interimTranscript,
   onMicToggle,
+  continuousVoice = true,
+  continuousVoiceActive = false,
+  onToggleContinuousMode,
+  voiceNotice = null,
+  onDismissVoiceNotice,
   disabled = false,
 }) => {
   const [inputText, setInputText] = useState('');
@@ -42,14 +52,39 @@ export const Composer: React.FC<ComposerProps> = ({
 
   return (
     <div className="border-t border-[var(--line-strong)] bg-[var(--surface)] p-3 space-y-2">
+      {/* Voice Status or Inactivity Notice */}
+      {voiceNotice && (
+        <div className="flex items-center justify-between p-2 rounded-lg bg-amber-500/10 border border-amber-500/30 text-xs text-amber-800 dark:text-amber-200">
+          <span>{voiceNotice}</span>
+          {onDismissVoiceNotice && (
+            <button
+              type="button"
+              onClick={onDismissVoiceNotice}
+              className="font-bold px-1 text-xs hover:opacity-75"
+              title="Dismiss notification"
+            >
+              ✕
+            </button>
+          )}
+        </div>
+      )}
+
       {/* Live Interim Transcript or Listening Visual */}
       {isListening && (
         <div className="flex items-center justify-between p-2 rounded-lg bg-[#000080]/5 border border-[#000080]/20 text-xs text-[var(--ink)]">
           <div className="flex items-center gap-2">
             <ChakraListener isListening={true} size={20} />
-            <span className="italic text-[var(--ink-2)]">
-              {interimTranscript || 'Listening... Speak your voter question clearly'}
-            </span>
+            <div className="flex flex-col">
+              {continuousVoiceActive && (
+                <span className="text-[10px] font-bold uppercase tracking-wider text-[#138808] flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#138808] animate-ping inline-block" />
+                  Hands-Free Conversation (Listening)
+                </span>
+              )}
+              <span className="italic text-[var(--ink-2)] truncate max-w-[200px] sm:max-w-[260px]">
+                {interimTranscript || 'Listening... Speak your voter question clearly'}
+              </span>
+            </div>
           </div>
           <TricolorWaveform active={true} />
         </div>
@@ -57,10 +92,61 @@ export const Composer: React.FC<ComposerProps> = ({
 
       {isSpeaking && (
         <div className="flex items-center justify-between p-2 rounded-lg bg-[#138808]/5 border border-[#138808]/20 text-xs text-[var(--ink)]">
-          <span className="font-medium text-[#138808]">Speaking answer aloud... Tap mic to interrupt (barge-in)</span>
+          <div className="flex items-center gap-1.5">
+            <span className="font-medium text-[#138808]">Speaking answer aloud...</span>
+            {continuousVoiceActive ? (
+              <span className="text-[11px] text-[var(--ink-3)] font-semibold hidden sm:inline">
+                (Mic will auto-listen next)
+              </span>
+            ) : (
+              <span className="text-[11px] text-[var(--ink-3)] hidden sm:inline">
+                Tap mic to interrupt (barge-in)
+              </span>
+            )}
+          </div>
           <TricolorWaveform active={true} />
         </div>
       )}
+
+      {/* Hands-Free Mode Indicator Row */}
+      <div className="flex items-center justify-between px-1 text-[11px]">
+        {onToggleContinuousMode ? (
+          <button
+            type="button"
+            onClick={onToggleContinuousMode}
+            className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full border text-[10px] font-semibold transition-all ${
+              continuousVoiceActive
+                ? 'bg-[#138808]/15 border-[#138808]/40 text-[#138808]'
+                : continuousVoice
+                ? 'bg-[var(--surface-2)] border-[var(--line-strong)] text-[var(--ink-2)] hover:border-[#000080]'
+                : 'bg-transparent border-dashed border-[var(--line-strong)] text-[var(--ink-3)] hover:text-[var(--ink)]'
+            }`}
+            title={
+              continuousVoiceActive
+                ? 'Continuous hands-free conversation is active. Microphone will automatically listen after each answer. Tap to toggle off.'
+                : 'Continuous hands-free conversation: Tap mic once and talk freely until you close chat. Tap to toggle.'
+            }
+          >
+            <span className={continuousVoiceActive ? 'animate-pulse' : ''}>🎙️</span>
+            <span>
+              {continuousVoiceActive
+                ? 'Hands-Free (Active)'
+                : continuousVoice
+                ? 'Hands-Free: On'
+                : 'Push-to-Talk'}
+            </span>
+          </button>
+        ) : (
+          <span />
+        )}
+        <span className="text-[10px] text-[var(--ink-3)]">
+          {continuousVoiceActive
+            ? 'Continuous conversation open'
+            : isListening
+            ? 'Listening...'
+            : 'Click mic once to converse'}
+        </span>
+      </div>
 
       {/* Input row */}
       <div className="flex items-end gap-2">
@@ -88,9 +174,17 @@ export const Composer: React.FC<ComposerProps> = ({
           className={`flex-shrink-0 w-9 h-9 rounded-full flex items-center justify-center transition-all ${
             isListening
               ? 'bg-[#B91C1C] text-white shadow-md animate-pulse ring-2 ring-[#B91C1C]/40'
+              : continuousVoiceActive
+              ? 'bg-[#138808] text-white shadow-md ring-2 ring-[#138808]/40 animate-pulse'
               : 'bg-[#FF9933] text-white hover:bg-[#A84F00] shadow-xs'
           }`}
-          title={isListening ? 'Stop listening' : 'Start voice input (Speak)'}
+          title={
+            isListening
+              ? 'Stop listening'
+              : continuousVoiceActive
+              ? 'Continuous hands-free mode active (tap to stop)'
+              : 'Start hands-free voice conversation (Speak)'
+          }
           aria-label={isListening ? 'Stop listening' : 'Start voice input'}
         >
           {isListening ? (

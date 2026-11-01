@@ -3,6 +3,8 @@ import React from 'react';
 export interface SettingsMenuProps {
   autoSpeak: boolean;
   onToggleAutoSpeak: () => void;
+  continuousVoice: boolean;
+  onToggleContinuousVoice: () => void;
   speechRate: number;
   onSelectSpeechRate: (rate: number) => void;
   onClearHistory: () => void;
@@ -13,6 +15,8 @@ export interface SettingsMenuProps {
 export const SettingsMenu: React.FC<SettingsMenuProps> = ({
   autoSpeak,
   onToggleAutoSpeak,
+  continuousVoice,
+  onToggleContinuousVoice,
   speechRate,
   onSelectSpeechRate,
   onClearHistory,
@@ -31,6 +35,28 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
           className="text-xs text-[var(--ink-3)] hover:text-[var(--ink)]"
         >
           ✕
+        </button>
+      </div>
+
+      {/* Hands-Free Continuous Voice Toggle */}
+      <div className="flex items-center justify-between">
+        <div className="flex flex-col">
+          <span className="text-xs font-semibold">Hands-Free Conversation</span>
+          <span className="text-[10px] text-[var(--ink-3)]">Keep mic open after AI answers</span>
+        </div>
+        <button
+          type="button"
+          onClick={onToggleContinuousVoice}
+          className={`w-10 h-5 flex items-center rounded-full p-1 transition-colors ${
+            continuousVoice ? 'bg-[#000080]' : 'bg-gray-300 dark:bg-gray-700'
+          }`}
+          aria-label="Toggle hands-free conversation"
+        >
+          <div
+            className={`bg-white w-3.5 h-3.5 rounded-full shadow-md transform transition-transform ${
+              continuousVoice ? 'translate-x-5' : 'translate-x-0'
+            }`}
+          />
         </button>
       </div>
 
