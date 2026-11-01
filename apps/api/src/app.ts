@@ -79,8 +79,31 @@ export async function buildApp(customConfig?: Partial<AppConfig>): Promise<{
     },
   });
 
+  const customOrigins = process.env.CORS_ORIGINS
+    ? process.env.CORS_ORIGINS.split(',').map((o) => o.trim())
+    : [];
+  const allowedOrigins = [
+    `http://localhost:${config.webPort}`,
+    `http://localhost:${config.adminPort}`,
+    `http://127.0.0.1:${config.webPort}`,
+    `http://127.0.0.1:${config.adminPort}`,
+    ...customOrigins,
+  ];
+
   await app.register(cors, {
-    origin: [`http://localhost:${config.webPort}`, `http://localhost:${config.adminPort}`],
+    origin: (origin, cb) => {
+      // Allow requests with no origin (curl, same-origin, SSR)
+      if (!origin) return cb(null, true);
+      if (
+        allowedOrigins.includes(origin) ||
+        allowedOrigins.includes('*') ||
+        origin.endsWith('.onrender.com') ||
+        origin.endsWith('.vercel.app')
+      ) {
+        return cb(null, true);
+      }
+      return cb(new Error('Not allowed by CORS'), false);
+    },
     credentials: true,
   });
 
