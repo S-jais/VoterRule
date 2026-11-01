@@ -23,9 +23,12 @@ pnpm-debug.log*
 .DS_Store
 Thumbs.db
 
-# Storage / uploads
-storage/
-uploads/
+# Storage / uploads (runtime local data directories)
+/storage/
+/uploads/
+apps/api/storage/
+!apps/api/src/storage/
+!apps/api/src/storage/**
 *.sqlite
 *.sqlite-journal
 *.db

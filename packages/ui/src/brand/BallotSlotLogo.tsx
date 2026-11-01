@@ -116,3 +116,4 @@ export const BallotSlotLogo: React.FC<BallotSlotLogoProps> = ({
     </svg>
   );
 };
+
