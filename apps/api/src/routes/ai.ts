@@ -102,6 +102,7 @@ export function registerAIRoutes(app: FastifyInstance, orchestrator: AIOrchestra
         voiceEnabled: true,
         features: {
           webSpeechAvailable: true,
+          whisperConfigured: sttProvider.isAvailable(),
           cloudSttConfigured: sttProvider.isAvailable(),
           cloudTtsConfigured: ttsProvider.isAvailable(),
           guidedWorkflows: ['missing_name', 'new_registration', 'duplicate_concern', 'deceased_report'],

@@ -15,6 +15,7 @@ export interface VoiceControllerOptions {
   onError: (errorMsg: string) => void;
   locale?: string;
   speechRate?: number;
+  useWhisperStt?: boolean;
 }
 
 export class VoiceController {
@@ -26,11 +27,19 @@ export class VoiceController {
   private options: VoiceControllerOptions;
   private speechRate: number = 1.0;
   private locale: string = 'en-IN';
+  private useWhisperStt: boolean = true;
+
+  // MediaRecorder audio capture for Whisper STT
+  private mediaStream: MediaStream | null = null;
+  private mediaRecorder: any = null;
+  private audioChunks: Blob[] = [];
+  private pendingWebSpeechFinal: string = '';
 
   constructor(options: VoiceControllerOptions) {
     this.options = options;
     this.locale = options.locale === 'hi' ? 'hi-IN' : 'en-IN';
     this.speechRate = options.speechRate || 1.0;
+    this.useWhisperStt = options.useWhisperStt ?? true;
 
     if (typeof window !== 'undefined') {
       if ('speechSynthesis' in window) {
@@ -85,7 +94,8 @@ export class VoiceController {
         }
 
         if (finalText) {
-          this.options.onFinalTranscript(finalText);
+          this.pendingWebSpeechFinal = finalText;
+          // If mediaRecorder is active, stopping listening will trigger recorder.onstop -> Whisper STT
           this.stopListening();
         }
       };
@@ -142,35 +152,76 @@ export class VoiceController {
    * Start listening after explicit user gesture
    * Implements Barge-in: immediately stops active speech playback if currently speaking
    */
-  public startListening(): void {
+  public async startListening(): Promise<void> {
     // 1. Barge-in: if currently speaking, cancel immediately
     if (this.state === 'SPEAKING' || this.synthesis?.speaking) {
       this.stopSpeaking();
     }
 
-    if (!this.recognition) {
+    if (!this.recognition && typeof navigator === 'undefined') {
       this.options.onError('Speech recognition not available on this device');
       return;
     }
 
-    try {
-      this.recognition.lang = this.locale;
-      this.recognition.start();
-    } catch (err: any) {
-      // If already started or aborting, restart cleanly
-      this.recognition.abort();
-      setTimeout(() => {
-        try {
-          this.recognition.start();
-        } catch (e: any) {
-          this.transitionTo('ERROR', e.message);
+    this.pendingWebSpeechFinal = '';
+    this.audioChunks = [];
+
+    // 2. Start MediaRecorder for Whisper STT if supported
+    if (
+      this.useWhisperStt &&
+      typeof navigator !== 'undefined' &&
+      navigator.mediaDevices?.getUserMedia &&
+      typeof MediaRecorder !== 'undefined'
+    ) {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        this.mediaStream = stream;
+
+        let mimeType = '';
+        if (MediaRecorder.isTypeSupported('audio/webm;codecs=opus')) {
+          mimeType = 'audio/webm;codecs=opus';
+        } else if (MediaRecorder.isTypeSupported('audio/webm')) {
+          mimeType = 'audio/webm';
+        } else if (MediaRecorder.isTypeSupported('audio/mp4')) {
+          mimeType = 'audio/mp4';
         }
-      }, 100);
+
+        this.mediaRecorder = mimeType ? new MediaRecorder(stream, { mimeType }) : new MediaRecorder(stream);
+        this.mediaRecorder.ondataavailable = (event: any) => {
+          if (event.data && event.data.size > 0) {
+            this.audioChunks.push(event.data);
+          }
+        };
+
+        this.mediaRecorder.start(200);
+      } catch (err: any) {
+        console.warn('[VoiceController] getUserMedia for Whisper audio capture failed, using browser speech fallback:', err);
+      }
+    }
+
+    // 3. Start Web Speech recognition for real-time interim transcript display
+    if (this.recognition) {
+      try {
+        this.recognition.lang = this.locale;
+        this.recognition.start();
+      } catch (err: any) {
+        // If already started or aborting, restart cleanly
+        this.recognition.abort();
+        setTimeout(() => {
+          try {
+            this.recognition.start();
+          } catch (e: any) {
+            this.transitionTo('ERROR', e.message);
+          }
+        }, 100);
+      }
     }
   }
 
-  public stopListening(): void {
+  public async stopListening(): Promise<void> {
     this.clearWatchdog();
+
+    // Stop recognition
     if (this.recognition) {
       try {
         this.recognition.stop();
@@ -178,9 +229,90 @@ export class VoiceController {
         // ignore
       }
     }
+
+    // Process Whisper recording if active
+    if (this.mediaRecorder && this.mediaRecorder.state === 'recording') {
+      const recorder = this.mediaRecorder;
+      this.transitionTo('PROCESSING');
+
+      recorder.onstop = async () => {
+        // Stop all audio tracks
+        if (this.mediaStream) {
+          this.mediaStream.getTracks().forEach((track) => track.stop());
+          this.mediaStream = null;
+        }
+
+        let whisperTranscript = '';
+        if (this.audioChunks.length > 0) {
+          try {
+            const blob = new Blob(this.audioChunks, { type: recorder.mimeType || 'audio/webm' });
+            whisperTranscript = await this.sendAudioToWhisper(blob);
+          } catch (err) {
+            console.warn('[VoiceController] Whisper transcription call failed:', err);
+          }
+        }
+
+        const finalText = whisperTranscript.trim() || this.pendingWebSpeechFinal.trim();
+        if (finalText) {
+          this.options.onFinalTranscript(finalText);
+        }
+        this.transitionTo('IDLE');
+      };
+
+      try {
+        recorder.stop();
+      } catch {
+        // ignore
+      }
+      return;
+    }
+
+    // If media recorder was not active, finalize with Web Speech transcript
+    if (this.pendingWebSpeechFinal.trim()) {
+      this.options.onFinalTranscript(this.pendingWebSpeechFinal.trim());
+      this.pendingWebSpeechFinal = '';
+    }
+
     if (this.state === 'LISTENING') {
       this.transitionTo('IDLE');
     }
+  }
+
+  private async sendAudioToWhisper(blob: Blob): Promise<string> {
+    if (typeof FileReader === 'undefined') return '';
+
+    const base64 = await this.blobToBase64(blob);
+    if (!base64) return '';
+
+    const res = await fetch('/api/v1/ai/stt', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        audioBase64: base64,
+        mimeType: blob.type || 'audio/webm',
+        locale: this.locale,
+      }),
+    });
+
+    if (!res.ok) return '';
+    const json = (await res.json()) as any;
+    if (json.data?.fallbackToBrowser) {
+      return '';
+    }
+    return json.data?.text || '';
+  }
+
+  private blobToBase64(blob: Blob): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const result = reader.result as string;
+        const base64 = result?.includes(',') ? result.split(',')[1] : result;
+        resolve(base64 || '');
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(blob);
+    });
   }
 
   /**
@@ -255,4 +387,3 @@ export class VoiceController {
     }
   }
 }
-

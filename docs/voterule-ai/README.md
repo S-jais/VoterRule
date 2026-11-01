@@ -72,7 +72,11 @@ All sensitive secrets remain strictly server-side. The assistant functions with 
 | :--- | :--- | :--- |
 | `GEMINI_API_KEY` | Google Gemini API Key (e.g. for Gemini 1.5 Flash). | If empty/omitted, orchestrator uses deterministic `RuleBasedProvider`. |
 | `GEMINI_MODEL` | Gemini Model Identifier. | `gemini-1.5-flash` |
-| `STT_API_KEY` | Server-side Speech-to-Text provider key (swappable interface). | Browser Web Speech API (`SpeechRecognition`) is primary client-side engine. |
+| `GROQ_API_KEY` | Groq API Key for ultra-fast Whisper speech-to-text (`whisper-large-v3`, ~200ms latency). | Automatic fallback to browser Web Speech API. |
+| `OPENAI_API_KEY` | OpenAI API Key for Whisper STT (`whisper-1`) and OpenAI TTS (`tts-1`). | Automatic fallback to browser Web Speech API. |
+| `WHISPER_ENDPOINT` | Custom self-hosted Whisper / Whisper Flow / Faster-Whisper URL. | If omitted, uses Groq or OpenAI. |
+| `WHISPER_API_KEY` | Optional auth bearer token for custom `WHISPER_ENDPOINT`. | None. |
+| `STT_API_KEY` | Generic Server-side Speech-to-Text provider key. | Browser Web Speech API (`SpeechRecognition`) is primary client-side engine. |
 | `TTS_API_KEY` | Server-side Text-to-Speech provider key (swappable interface). | Browser Web Speech Synthesis (`SpeechSynthesisUtterance`) is primary client-side engine. |
 | `AI_SESSION_TTL_MINUTES` | In-memory session store expiry window. | `60` minutes |
 | `AI_MAX_TURNS_PER_SESSION`| Context history ceiling before sliding-window pruning. | `20` turns |

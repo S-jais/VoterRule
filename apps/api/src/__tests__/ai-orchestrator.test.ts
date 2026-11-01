@@ -4,6 +4,7 @@ import { DatabaseStore } from '../db/in-memory-db.js';
 import { AIOrchestrator } from '../ai/orchestrator.js';
 import { IntentClassifier } from '../ai/intent/classifier.js';
 import { KnowledgeBaseService } from '../ai/knowledge/knowledge-base.js';
+import { WhisperSTTProvider } from '../ai/providers/stt-tts-providers.js';
 
 describe('AI Orchestrator & Knowledge Subsystem', () => {
   let orchestrator: AIOrchestrator;
@@ -163,6 +164,29 @@ describe('AI Orchestrator & Knowledge Subsystem', () => {
         { id: 'user-002', role: 'ANONYMOUS' }
       );
       expect(res.session.messageCount).toBe(2); // Only this turn (1 user + 1 assistant)
+    });
+  });
+
+  describe('WhisperSTTProvider Unit Tests', () => {
+    it('reports unavailable when no STT credentials exist', () => {
+      const originalGroq = process.env.GROQ_API_KEY;
+      const originalOpenAI = process.env.OPENAI_API_KEY;
+      delete process.env.GROQ_API_KEY;
+      delete process.env.OPENAI_API_KEY;
+
+      const provider = new WhisperSTTProvider();
+      expect(provider.name).toBe('WhisperSTTProvider');
+      expect(provider.isAvailable()).toBe(false);
+
+      if (originalGroq) process.env.GROQ_API_KEY = originalGroq;
+      if (originalOpenAI) process.env.OPENAI_API_KEY = originalOpenAI;
+    });
+
+    it('returns fallback response on empty buffer', async () => {
+      const provider = new WhisperSTTProvider();
+      const res = await provider.transcribe(Buffer.from(''), 'audio/webm');
+      expect(res.text).toBe('');
+      expect(res.confidence).toBe(0);
     });
   });
 });
