@@ -228,3 +228,4 @@ export const WORKFLOW_DEFINITIONS: Record<string, WorkflowDefinition> = {
     ],
   },
 };
+

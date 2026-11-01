@@ -77,3 +77,4 @@ export const AssistantLauncher: React.FC<AssistantLauncherProps> = ({
     </aside>
   );
 };
+

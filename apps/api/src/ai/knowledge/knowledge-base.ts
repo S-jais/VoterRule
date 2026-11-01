@@ -124,3 +124,4 @@ export class KnowledgeBaseService implements KnowledgeRetriever {
     return true;
   }
 }
+

@@ -33,3 +33,4 @@ export const SuggestedQuestions: React.FC<SuggestedQuestionsProps> = ({
     </div>
   );
 };
+

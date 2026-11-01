@@ -223,3 +223,4 @@ export const ELECTORAL_CORPUS_SEEDS: KnowledgeChunk[] = [
     text: `The National Voter Helpline is 1950 (Toll Free). Electors can call 1950 from 10:00 AM to 5:00 PM on all working days. When calling from a mobile phone, callers should prefix their District STD code (e.g., 011-1950 in Delhi) to connect directly with their District Contact Centre. To locate your specific Electoral Registration Officer (ERO) or Booth Level Officer (BLO), visit https://voters.eci.gov.in and click 'Know Your Polling Station and Officer'.`
   }
 ];
+

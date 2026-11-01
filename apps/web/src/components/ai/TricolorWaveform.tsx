@@ -52,3 +52,4 @@ export const TricolorWaveform: React.FC<TricolorWaveformProps> = ({
     </div>
   );
 };
+

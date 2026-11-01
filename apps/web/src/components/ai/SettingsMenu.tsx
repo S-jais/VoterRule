@@ -111,3 +111,4 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
     </div>
   );
 };
+

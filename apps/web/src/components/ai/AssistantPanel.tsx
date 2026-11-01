@@ -159,6 +159,40 @@ export const AssistantPanel: React.FC<AssistantPanelProps> = ({
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isOpen, onClose]);
 
+  const safeParseResponse = async (res: Response) => {
+    let json: any = null;
+    let responseText = '';
+    try {
+      responseText = await res.text();
+    } catch {
+      // Stream reading error
+    }
+
+    if (responseText) {
+      try {
+        json = JSON.parse(responseText);
+      } catch {
+        // Not JSON
+      }
+    }
+
+    if (!res.ok) {
+      const errorMsg =
+        json?.error?.message ||
+        json?.message ||
+        (res.status === 502 || res.status === 503 || res.status === 504
+          ? 'Unable to connect to VoteRule backend service (port 4000). Please check that the API server is running.'
+          : `Server returned HTTP ${res.status}: ${res.statusText || 'Error'}`);
+      throw new Error(errorMsg);
+    }
+
+    if (!json) {
+      throw new Error('Received an empty response from VoteRule assistant service.');
+    }
+
+    return json;
+  };
+
   const handleSendMessage = async (text: string) => {
     if (!text.trim() || loading) return;
 
@@ -186,10 +220,7 @@ export const AssistantPanel: React.FC<AssistantPanelProps> = ({
         }),
       });
 
-      const json = await res.json();
-      if (!res.ok) {
-        throw new Error(json.error?.message || 'Failed to get answer from assistant');
-      }
+      const json = await safeParseResponse(res);
 
       const aiMsg = json.data?.message;
       const assistantMessage: PanelMessage = {
@@ -215,7 +246,11 @@ export const AssistantPanel: React.FC<AssistantPanelProps> = ({
       }
     } catch (err: any) {
       console.error(err);
-      setErrorBanner(err.message || 'Error communicating with assistant. Please try again.');
+      if (err.name === 'TypeError' && err.message?.toLowerCase().includes('fetch')) {
+        setErrorBanner('Network error: Unable to connect to VoteRule backend API (port 4000). Please ensure the backend is running.');
+      } else {
+        setErrorBanner(err.message || 'Error communicating with assistant. Please try again.');
+      }
     } finally {
       setLoading(false);
     }
@@ -227,6 +262,7 @@ export const AssistantPanel: React.FC<AssistantPanelProps> = ({
 
   const handleWorkflowOptionClick = async (optionId: string) => {
     if (loading) return;
+    setErrorBanner(null);
     setLoading(true);
 
     try {
@@ -242,7 +278,7 @@ export const AssistantPanel: React.FC<AssistantPanelProps> = ({
         }),
       });
 
-      const json = await res.json();
+      const json = await safeParseResponse(res);
       const aiMsg = json.data?.message;
       if (aiMsg) {
         const assistantMessage: PanelMessage = {
@@ -262,7 +298,11 @@ export const AssistantPanel: React.FC<AssistantPanelProps> = ({
         }
       }
     } catch (err: any) {
-      setErrorBanner(err.message);
+      if (err.name === 'TypeError' && err.message?.toLowerCase().includes('fetch')) {
+        setErrorBanner('Network error: Unable to connect to VoteRule backend API (port 4000). Please ensure the backend is running.');
+      } else {
+        setErrorBanner(err.message || 'Error communicating with assistant. Please try again.');
+      }
     } finally {
       setLoading(false);
     }
@@ -471,3 +511,4 @@ export const AssistantPanel: React.FC<AssistantPanelProps> = ({
     </>
   );
 };
+

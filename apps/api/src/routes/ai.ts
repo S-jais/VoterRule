@@ -200,3 +200,4 @@ export function registerAIRoutes(app: FastifyInstance, orchestrator: AIOrchestra
     });
   });
 }
+

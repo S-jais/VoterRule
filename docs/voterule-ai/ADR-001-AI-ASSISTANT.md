@@ -109,3 +109,4 @@ The model cannot execute raw client code. It outputs structured intent actions t
   - Golden test suite covering all 14 intents.
   - Automated red-team penetration tests against prompt injection and cross-user data leakage.
   - Voice state machine unit tests covering barge-in, timeouts, and error recoveries.
+
