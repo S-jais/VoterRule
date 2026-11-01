@@ -48,7 +48,7 @@ export const DuplicateSelfCheckPage: React.FC<DuplicateSelfCheckPageProps> = ({ 
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-8 space-y-6">
-      <div className="space-y-1">
+      <div id="duplicate-intro" className="space-y-1">
         <h1 className="font-display font-extrabold text-2xl sm:text-3xl text-[var(--ink)] tracking-tight">
           {locale === 'hi'
             ? 'संभावित दोहरे पंजीकरण की स्व-जांच'
@@ -59,7 +59,7 @@ export const DuplicateSelfCheckPage: React.FC<DuplicateSelfCheckPageProps> = ({ 
         </p>
       </div>
 
-      <div className="bg-[var(--surface-2)] p-4 rounded-[var(--r-md)] border border-[var(--line-strong)] text-xs text-[var(--ink)] space-y-2">
+      <div id="duplicate-guidance" className="bg-[var(--surface-2)] p-4 rounded-[var(--r-md)] border border-[var(--line-strong)] text-xs text-[var(--ink)] space-y-2">
         <span className="font-bold text-[var(--link)]">Statutory Principle:</span>
         <p className="text-[var(--ink-2)]">
           Section 17 of RPA 1950 states that no person is entitled to be enrolled on the electoral roll for more than one constituency. If you have shifted, statutory Form 7 is filed to delete the outdated entry from your prior constituency.
@@ -68,7 +68,7 @@ export const DuplicateSelfCheckPage: React.FC<DuplicateSelfCheckPageProps> = ({ 
 
       {result ? (
         <Card title="Self-Check Guidance & Assistance Case Created">
-          <div className="space-y-4 pt-2">
+          <div id="duplicate-results" className="space-y-4 pt-2">
             <Alert type="success" title="Case Created">
               Portal Reference: {result.publicRef}
             </Alert>
@@ -93,12 +93,13 @@ export const DuplicateSelfCheckPage: React.FC<DuplicateSelfCheckPageProps> = ({ 
         </Card>
       ) : (
         <Card title="Enter Your Current and Prior Locality Details">
-          <form onSubmit={handleSubmit} className="space-y-5 pt-2">
+          <form id="duplicate-form" onSubmit={handleSubmit} className="space-y-5 pt-2">
             <Input
               id="dup-name"
               label="Full Name"
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
+              data-ai-target="duplicate-name-input"
               required
             />
 
@@ -110,6 +111,7 @@ export const DuplicateSelfCheckPage: React.FC<DuplicateSelfCheckPageProps> = ({ 
                   label="Current State"
                   value={currentState}
                   onChange={(e) => setCurrentState(e.target.value)}
+                  data-ai-target="duplicate-state-select"
                   required
                 />
                 <Input
@@ -142,7 +144,7 @@ export const DuplicateSelfCheckPage: React.FC<DuplicateSelfCheckPageProps> = ({ 
               </div>
             </div>
 
-            <Button type="submit" variant="primary" size="md" isLoading={submitting}>
+            <Button type="submit" variant="primary" size="md" isLoading={submitting} data-ai-target="duplicate-submit-btn">
               Run Self-Check & Get Form 7 Guidance
             </Button>
           </form>

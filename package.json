@@ -8,6 +8,8 @@
     "build": "pnpm --filter \"./packages/*\" build && pnpm --filter \"./apps/*\" build",
     "test": "pnpm --recursive test",
     "admin:bootstrap": "pnpm --filter @voterrule/api admin:bootstrap",
+    "ai:gen-app-map": "pnpm --filter @voterrule/api exec tsx ../../scripts/gen-app-map.ts",
+    "ai:check-app-map": "pnpm --filter @voterrule/api exec tsx ../../scripts/check-app-map.ts",
     "lint": "pnpm --recursive lint",
     "clean": "pnpm --recursive exec rimraf dist .turbo node_modules"
   },

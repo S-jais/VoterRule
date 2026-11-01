@@ -185,21 +185,25 @@ export const CheckPage: React.FC<CheckPageProps> = ({ onNavigate }) => {
           )}
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <Input
-              id="search-epic"
-              label="EPIC Card Number (Optional)"
-              description="Leave blank if registering for the first time or if unknown."
-              placeholder="e.g. ABC1234567"
-              value={epicNumber}
-              onChange={(e) => setEpicNumber(e.target.value)}
-            />
-            <Input
-              id="search-state"
-              label="State / Union Territory"
-              value={state}
-              onChange={(e) => setState(e.target.value)}
-              required
-            />
+            <div data-ai-target="check-epic-input">
+              <Input
+                id="search-epic"
+                label="EPIC Card Number (Optional)"
+                description="Leave blank if registering for the first time or if unknown."
+                placeholder="e.g. ABC1234567"
+                value={epicNumber}
+                onChange={(e) => setEpicNumber(e.target.value)}
+              />
+            </div>
+            <div data-ai-target="check-state-select">
+              <Input
+                id="search-state"
+                label="State / Union Territory"
+                value={state}
+                onChange={(e) => setState(e.target.value)}
+                required
+              />
+            </div>
           </div>
 
           {/* Demo Simulation Helper Button */}
@@ -207,15 +211,17 @@ export const CheckPage: React.FC<CheckPageProps> = ({ onNavigate }) => {
             <span>
               <strong>Demo Test Simulator:</strong> Test with synthetic EPICs <code className="bg-[var(--surface-2)] px-1 py-0.5 rounded font-mono">DEMO1234567</code> (Present) or <code className="bg-[var(--surface-2)] px-1 py-0.5 rounded font-mono">INCONSIST99</code> (Inconsistent).
             </span>
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              onClick={handleSimulateLookup}
-              isLoading={loading}
-            >
-              Simulate Lookup
-            </Button>
+            <div data-ai-target="check-simulate-btn">
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={handleSimulateLookup}
+                isLoading={loading}
+              >
+                Simulate Lookup
+              </Button>
+            </div>
           </div>
 
           {simulatedResult && (
@@ -276,15 +282,17 @@ export const CheckPage: React.FC<CheckPageProps> = ({ onNavigate }) => {
           </div>
 
           <div className="pt-2 flex items-center justify-between">
-            <Button
-              type="submit"
-              variant="primary"
-              size="md"
-              disabled={!selectedOutcome}
-              isLoading={loading}
-            >
-              Save Search Outcome to My Dashboard
-            </Button>
+            <div data-ai-target="check-save-btn">
+              <Button
+                type="submit"
+                variant="primary"
+                size="md"
+                disabled={!selectedOutcome}
+                isLoading={loading}
+              >
+                Save Search Outcome to My Dashboard
+              </Button>
+            </div>
 
             {selectedOutcome === StatusCheckOutcome.NOT_FOUND_IN_CHECKED_SEARCH && (
               <Button

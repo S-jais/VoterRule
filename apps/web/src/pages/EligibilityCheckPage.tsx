@@ -30,7 +30,7 @@ export const EligibilityCheckPage: React.FC<EligibilityCheckPageProps> = ({ onNa
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-8 space-y-6">
-      <div className="space-y-1">
+      <div id="eligibility-intro" className="space-y-1">
         <h1 className="font-display font-extrabold text-2xl sm:text-3xl text-[var(--ink)] tracking-tight">
           {locale === 'hi'
             ? 'वैधानिक मतदाता पात्रता मार्गदर्शक (अनाम व डेटा-मुक्त)'
@@ -48,36 +48,47 @@ export const EligibilityCheckPage: React.FC<EligibilityCheckPageProps> = ({ onNa
         </p>
       </div>
 
-      <div className="space-y-6">
+      <div id="questions-form" className="space-y-6">
         {ELIGIBILITY_QUESTIONS.map((q) => (
-          <Card key={q.id} title={`${q.order}. ${locale === 'hi' ? q.questionHi : q.questionEn}`}>
-            <p className="text-xs text-[var(--ink-2)] mb-3">
-              {locale === 'hi' ? q.helpTextHi : q.helpTextEn}
-            </p>
+          <div
+            key={q.id}
+            data-ai-target={
+              q.id === 'citizenship'
+                ? 'eligibility-question-citizenship'
+                : q.id === 'age_qualifying'
+                ? 'eligibility-question-age'
+                : undefined
+            }
+          >
+            <Card title={`${q.order}. ${locale === 'hi' ? q.questionHi : q.questionEn}`}>
+              <p className="text-xs text-[var(--ink-2)] mb-3">
+                {locale === 'hi' ? q.helpTextHi : q.helpTextEn}
+              </p>
 
-            <div className="space-y-2">
-              {q.options.map((opt) => (
-                <label
-                  key={opt.value}
-                  className={`flex items-start gap-3 p-3 rounded-[var(--r-md)] border cursor-pointer text-xs transition-colors ${
-                    answers[q.id] === opt.value
-                      ? 'border-[var(--link)] bg-[var(--surface-2)] ring-1 ring-[var(--link)] font-bold text-[var(--ink)]'
-                      : 'border-[var(--line)] bg-[var(--surface)] hover:bg-[var(--surface-2)]/60 text-[var(--ink)]'
-                  }`}
-                >
-                  <input
-                    type="radio"
-                    name={q.id}
-                    value={opt.value}
-                    checked={answers[q.id] === opt.value}
-                    onChange={() => handleSelectOption(q.id, opt.value)}
-                    className="mt-0.5 accent-[var(--link)] text-[var(--link)] focus:ring-[var(--focus)]"
-                  />
-                  <span>{locale === 'hi' ? opt.labelHi : opt.labelEn}</span>
-                </label>
-              ))}
-            </div>
-          </Card>
+              <div className="space-y-2">
+                {q.options.map((opt) => (
+                  <label
+                    key={opt.value}
+                    className={`flex items-start gap-3 p-3 rounded-[var(--r-md)] border cursor-pointer text-xs transition-colors ${
+                      answers[q.id] === opt.value
+                        ? 'border-[var(--link)] bg-[var(--surface-2)] ring-1 ring-[var(--link)] font-bold text-[var(--ink)]'
+                        : 'border-[var(--line)] bg-[var(--surface)] hover:bg-[var(--surface-2)]/60 text-[var(--ink)]'
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      name={q.id}
+                      value={opt.value}
+                      checked={answers[q.id] === opt.value}
+                      onChange={() => handleSelectOption(q.id, opt.value)}
+                      className="mt-0.5 accent-[var(--link)] text-[var(--link)] focus:ring-[var(--focus)]"
+                    />
+                    <span>{locale === 'hi' ? opt.labelHi : opt.labelEn}</span>
+                  </label>
+                ))}
+              </div>
+            </Card>
+          </div>
         ))}
 
         <div className="pt-2 flex justify-center">
@@ -86,13 +97,14 @@ export const EligibilityCheckPage: React.FC<EligibilityCheckPageProps> = ({ onNa
             size="lg"
             disabled={!allAnswered}
             onClick={handleEvaluate}
+            data-ai-target="eligibility-eval-btn"
           >
             Evaluate Eligibility Guidance →
           </Button>
         </div>
 
         {evaluated && (
-          <div className="pt-4 space-y-4">
+          <div id="evaluation-result" className="pt-4 space-y-4">
             {!isCitizen ? (
               <Alert type="error" title="Citizenship Requirement">
                 Under Article 326 of the Constitution of India and Section 16 of RPA 1950, only Indian citizens are eligible for enrollment on the electoral roll.

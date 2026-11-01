@@ -183,22 +183,26 @@ export const MissingNamePage: React.FC<MissingNamePageProps> = ({ onNavigate }) 
       {step === 2 && (
         <Card title="Step 2 of 6: Identifying Details & EPIC Number">
           <div className="space-y-4 pt-2">
-            <Input
-              id="full-name"
-              label="Full Name (as on your identity/age proof)"
-              value={fullName}
-              onChange={(e) => setFullName(e.target.value)}
-              placeholder="e.g. Aarav Sharma"
-              required
-            />
+            <div data-ai-target="missing-name-input">
+              <Input
+                id="full-name"
+                label="Full Name (as on your identity/age proof)"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                placeholder="e.g. Aarav Sharma"
+                required
+              />
+            </div>
 
-            <Input
-              id="relative-name"
-              label="Father’s / Mother’s / Spouse’s Name"
-              value={relativeName}
-              onChange={(e) => setRelativeName(e.target.value)}
-              placeholder="e.g. Ramesh Sharma"
-            />
+            <div data-ai-target="missing-relative-input">
+              <Input
+                id="relative-name"
+                label="Father’s / Mother’s / Spouse’s Name"
+                value={relativeName}
+                onChange={(e) => setRelativeName(e.target.value)}
+                placeholder="e.g. Ramesh Sharma"
+              />
+            </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <Input

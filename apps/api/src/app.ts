@@ -23,6 +23,8 @@ import { registerDeceasedRoutes } from './routes/deceased.js';
 import { registerCheckInRoutes } from './routes/checkin.js';
 import { registerAdminRoutes } from './routes/admin.js';
 import { registerDpdpRoutes } from './routes/dpdp.js';
+import { AIOrchestrator } from './ai/orchestrator.js';
+import { registerAIRoutes } from './routes/ai.js';
 
 export async function buildApp(customConfig?: Partial<AppConfig>): Promise<{
   app: FastifyInstance;
@@ -31,6 +33,7 @@ export async function buildApp(customConfig?: Partial<AppConfig>): Promise<{
   audit: AuditService;
   storage: DocumentStorageService;
   logger: RedactedLogger;
+  aiOrchestrator: AIOrchestrator;
 }> {
   const config = { ...loadConfig(), ...customConfig };
   const app = Fastify({
@@ -49,6 +52,7 @@ export async function buildApp(customConfig?: Partial<AppConfig>): Promise<{
   const storage = new DocumentStorageService(config.storageLocalDir, config.clamAvEnabled);
   const logger = new RedactedLogger();
   const guidanceEngine = new GuidanceEngine();
+  const aiOrchestrator = new AIOrchestrator(audit, db);
 
   // Seed synthetic data in demo mode
   if (config.appMode === 'demo') {
@@ -164,6 +168,7 @@ export async function buildApp(customConfig?: Partial<AppConfig>): Promise<{
   registerCheckInRoutes(app, db, audit);
   registerAdminRoutes(app, db, audit, config.appMode);
   registerDpdpRoutes(app, db, audit, config.dpdpGrievanceEmail);
+  registerAIRoutes(app, aiOrchestrator);
 
-  return { app, db, encryption, audit, storage, logger };
+  return { app, db, encryption, audit, storage, logger, aiOrchestrator };
 }

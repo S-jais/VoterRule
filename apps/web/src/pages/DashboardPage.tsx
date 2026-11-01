@@ -61,7 +61,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ onNavigate }) => {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       {/* Title & Two-System Civic Banner */}
-      <div className="space-y-2">
+      <div id="dashboard-summary" className="space-y-2">
         <h1 className="font-display font-extrabold text-2xl sm:text-3xl text-[var(--ink)] tracking-tight">
           {t('dashboard.title')}
         </h1>
@@ -76,124 +76,130 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ onNavigate }) => {
         {/* Left Column: Electoral Info & Open Cases */}
         <div className="lg:col-span-8 space-y-6">
           {/* Official Roll Status Card */}
-          <Card
-            title={t('dashboard.statusCheckHeading')}
-            subtitle="Record of your user-observed searches on official election portals"
-            action={
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => onNavigate('/app/check')}
-              >
-                + New Search Check
-              </Button>
-            }
-          >
-            {latestCheck ? (
-              <div className="space-y-3 pt-2">
-                <div className="flex flex-wrap items-center justify-between gap-2">
-                  <div className="space-y-1">
-                    <span className="text-xs text-[var(--ink-3)] font-medium">Observed Search Outcome</span>
-                    <div className="text-sm font-bold text-[var(--ink)]">
-                      {latestCheck.outcome.replace(/_/g, ' ')}
-                    </div>
-                  </div>
-                  <ProvenanceChip
-                    sourceType={ProvenanceSourceType.USER_RECORDED_OFFICIAL_LOOKUP}
-                    dateStr={latestCheck.checkedAt.split('T')[0]}
-                  />
-                </div>
-                {latestCheck.notes && (
-                  <p className="text-xs text-[var(--ink-2)] bg-[var(--surface-2)] p-2.5 rounded-[var(--r-md)] border border-[var(--line)]">
-                    "{latestCheck.notes}"
-                  </p>
-                )}
-              </div>
-            ) : (
-              <div className="text-center py-6 space-y-2">
-                <p className="text-xs text-[var(--ink-2)]">
-                  You have not recorded any official electoral roll searches yet.
-                </p>
-                <Button variant="primary" size="sm" onClick={() => onNavigate('/app/check')}>
-                  Perform Guided Voter Search
+          <div id="recent-checks">
+            <Card
+              title={t('dashboard.statusCheckHeading')}
+              subtitle="Record of your user-observed searches on official election portals"
+              action={
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => onNavigate('/app/check')}
+                  data-ai-target="dashboard-new-check-btn"
+                >
+                  + New Search Check
                 </Button>
-              </div>
-            )}
-          </Card>
+              }
+            >
+              {latestCheck ? (
+                <div className="space-y-3 pt-2">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <div className="space-y-1">
+                      <span className="text-xs text-[var(--ink-3)] font-medium">Observed Search Outcome</span>
+                      <div className="text-sm font-bold text-[var(--ink)]">
+                        {latestCheck.outcome.replace(/_/g, ' ')}
+                      </div>
+                    </div>
+                    <ProvenanceChip
+                      sourceType={ProvenanceSourceType.USER_RECORDED_OFFICIAL_LOOKUP}
+                      dateStr={latestCheck.checkedAt.split('T')[0]}
+                    />
+                  </div>
+                  {latestCheck.notes && (
+                    <p className="text-xs text-[var(--ink-2)] bg-[var(--surface-2)] p-2.5 rounded-[var(--r-md)] border border-[var(--line)]">
+                      "{latestCheck.notes}"
+                    </p>
+                  )}
+                </div>
+              ) : (
+                <div className="text-center py-6 space-y-2">
+                  <p className="text-xs text-[var(--ink-2)]">
+                    You have not recorded any official electoral roll searches yet.
+                  </p>
+                  <Button variant="primary" size="sm" onClick={() => onNavigate('/app/check')} data-ai-target="dashboard-new-check-btn">
+                    Perform Guided Voter Search
+                  </Button>
+                </div>
+              )}
+            </Card>
+          </div>
 
           {/* Open Assistance Cases Card */}
-          <Card
-            title={t('dashboard.openCases')}
-            subtitle="Your active inclusion, correction, and verification cases"
-            action={
-              <Button
-                variant="secondary"
-                size="sm"
-                onClick={() => onNavigate('/app/missing-name')}
-              >
-                {t('dashboard.startNewCase')}
-              </Button>
-            }
-          >
-            {cases.length > 0 ? (
-              <div className="space-y-4 pt-2">
-                {cases.map((c) => (
-                  <div
-                    key={c.id}
-                    className="p-4 rounded-[var(--r-md)] border border-[var(--line)] hover:border-[var(--link)]/40 bg-[var(--surface)] transition-colors space-y-3"
-                  >
-                    <div className="flex flex-wrap items-center justify-between gap-2">
-                      <div>
-                        <span className="text-xs font-semibold text-[var(--link)]">
-                          {c.publicRef}
-                        </span>
-                        <h4 className="font-display text-sm font-bold text-[var(--ink)]">
-                          {c.category.replace(/_/g, ' ')}
-                        </h4>
-                      </div>
-                      <Badge
-                        label={`Portal: ${c.workflowStatus.replace(/_/g, ' ')}`}
-                        variant="info"
-                      />
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-[var(--ink-2)] pt-2 border-t border-[var(--line)]">
-                      <div>
-                        <span className="text-[var(--ink-3)]">Recommended Form: </span>
-                        <span className="font-semibold text-[var(--ink)]">{c.recommendedFormCode}</span>
-                      </div>
-                      <div>
-                        <span className="text-[var(--ink-3)]">Official Statutory Stage: </span>
-                        <span className="font-semibold text-[var(--ink)]">
-                          {c.officialStage.replace(/_/g, ' ')}
-                        </span>
-                      </div>
-                    </div>
-
-                    <div className="pt-2 flex items-center justify-between">
-                      <span className="text-[11px] text-[var(--ink-3)]">
-                        Portal reference (not an official ECI number)
-                      </span>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => onNavigate(`/app/cases/${c.publicRef}`)}
-                      >
-                        Track Case & View Prep Sheet
-                      </Button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="text-center py-8 space-y-3">
-                <p className="text-xs text-[var(--ink-2)]">{t('dashboard.noOpenCases')}</p>
-                <Button variant="primary" size="md" onClick={() => onNavigate('/app/missing-name')}>
-                  Start Missing-Name Assistance Wizard
+          <div id="active-cases">
+            <Card
+              title={t('dashboard.openCases')}
+              subtitle="Your active inclusion, correction, and verification cases"
+              action={
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onClick={() => onNavigate('/app/missing-name')}
+                >
+                  {t('dashboard.startNewCase')}
                 </Button>
-              </div>
-            )}
-          </Card>
+              }
+            >
+              {cases.length > 0 ? (
+                <div className="space-y-4 pt-2">
+                  {cases.map((c) => (
+                    <div
+                      key={c.id}
+                      data-ai-target="dashboard-active-case-card"
+                      className="p-4 rounded-[var(--r-md)] border border-[var(--line)] hover:border-[var(--link)]/40 bg-[var(--surface)] transition-colors space-y-3"
+                    >
+                      <div className="flex flex-wrap items-center justify-between gap-2">
+                        <div>
+                          <span className="text-xs font-semibold text-[var(--link)]">
+                            {c.publicRef}
+                          </span>
+                          <h4 className="font-display text-sm font-bold text-[var(--ink)]">
+                            {c.category.replace(/_/g, ' ')}
+                          </h4>
+                        </div>
+                        <Badge
+                          label={`Portal: ${c.workflowStatus.replace(/_/g, ' ')}`}
+                          variant="info"
+                        />
+                      </div>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-[var(--ink-2)] pt-2 border-t border-[var(--line)]">
+                        <div>
+                          <span className="text-[var(--ink-3)]">Recommended Form: </span>
+                          <span className="font-semibold text-[var(--ink)]">{c.recommendedFormCode}</span>
+                        </div>
+                        <div>
+                          <span className="text-[var(--ink-3)]">Official Statutory Stage: </span>
+                          <span className="font-semibold text-[var(--ink)]">
+                            {c.officialStage.replace(/_/g, ' ')}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="pt-2 flex items-center justify-between">
+                        <span className="text-[11px] text-[var(--ink-3)]">
+                          Portal reference (not an official ECI number)
+                        </span>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => onNavigate(`/app/cases/${c.publicRef}`)}
+                        >
+                          Track Case & View Prep Sheet
+                        </Button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-8 space-y-3">
+                  <p className="text-xs text-[var(--ink-2)]">{t('dashboard.noOpenCases')}</p>
+                  <Button variant="primary" size="md" onClick={() => onNavigate('/app/missing-name')}>
+                    Start Missing-Name Assistance Wizard
+                  </Button>
+                </div>
+              )}
+            </Card>
+          </div>
         </div>
 
         {/* Right Column: Case Progress Ring & Deadlines */}
@@ -214,50 +220,54 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ onNavigate }) => {
           </Card>
 
           {/* Verified Revision Schedules Card */}
-          <Card title={t('dashboard.deadlinesTitle')}>
-            {deadlines?.hasVerifiedSchedule ? (
-              <div className="space-y-3 pt-1 text-xs">
-                <div className="flex items-center justify-between font-semibold text-[var(--ink)]">
-                  <span>{deadlines.schedule.stateName}</span>
-                  <Badge label="Verified Schedule" variant="success" />
+          <div id="ssr-deadlines">
+            <Card title={t('dashboard.deadlinesTitle')}>
+              {deadlines?.hasVerifiedSchedule ? (
+                <div className="space-y-3 pt-1 text-xs">
+                  <div className="flex items-center justify-between font-semibold text-[var(--ink)]">
+                    <span>{deadlines.schedule.stateName}</span>
+                    <Badge label="Verified Schedule" variant="success" />
+                  </div>
+                  <div className="space-y-1.5 text-[var(--green-deep)] bg-[var(--green-wash)] p-3 rounded-[var(--r-md)] border border-[var(--green)]/30">
+                    <p><strong>Claims & Objections Window:</strong></p>
+                    <p>{deadlines.schedule.claimsAndObjectionsStart} to {deadlines.schedule.claimsAndObjectionsEnd}</p>
+                    <p><strong>Final Roll Date:</strong> {deadlines.schedule.finalRollPublicationDate}</p>
+                  </div>
                 </div>
-                <div className="space-y-1.5 text-[var(--green-deep)] bg-[var(--green-wash)] p-3 rounded-[var(--r-md)] border border-[var(--green)]/30">
-                  <p><strong>Claims & Objections Window:</strong></p>
-                  <p>{deadlines.schedule.claimsAndObjectionsStart} to {deadlines.schedule.claimsAndObjectionsEnd}</p>
-                  <p><strong>Final Roll Date:</strong> {deadlines.schedule.finalRollPublicationDate}</p>
+              ) : (
+                <div className="space-y-2 text-xs text-[var(--ink-2)]">
+                  <p>{deadlines?.messageEn || 'Schedule pending verification.'}</p>
+                  <a
+                    href={deadlines?.fallbackUrl || 'https://voters.eci.gov.in'}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[var(--link)] font-semibold underline block"
+                  >
+                    Check State CEO Website Directly →
+                  </a>
                 </div>
-              </div>
-            ) : (
-              <div className="space-y-2 text-xs text-[var(--ink-2)]">
-                <p>{deadlines?.messageEn || 'Schedule pending verification.'}</p>
-                <a
-                  href={deadlines?.fallbackUrl || 'https://voters.eci.gov.in'}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-[var(--link)] font-semibold underline block"
-                >
-                  Check State CEO Website Directly →
-                </a>
-              </div>
-            )}
-          </Card>
+              )}
+            </Card>
+          </div>
 
           {/* Voluntary Contact Checkin Banner */}
-          <Card title="Contact Check-in">
-            <div className="space-y-2 text-xs text-[var(--ink-2)]">
-              <p>
-                Ensure your preferred reminder channels are current. Check-in is voluntary and non-response never affects your voter status.
-              </p>
-              <Button
-                variant="outline"
-                size="sm"
-                className="w-full mt-2"
-                onClick={() => onNavigate('/app/checkin')}
-              >
-                Confirm Contact Details
-              </Button>
-            </div>
-          </Card>
+          <div id="support-actions">
+            <Card title="Contact Check-in">
+              <div className="space-y-2 text-xs text-[var(--ink-2)]">
+                <p>
+                  Ensure your preferred reminder channels are current. Check-in is voluntary and non-response never affects your voter status.
+                </p>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="w-full mt-2"
+                  onClick={() => onNavigate('/app/checkin')}
+                >
+                  Confirm Contact Details
+                </Button>
+              </div>
+            </Card>
+          </div>
         </div>
       </div>
     </div>

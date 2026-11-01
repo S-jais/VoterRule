@@ -86,6 +86,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
               <button
                 type="button"
                 className="btn btn-primary"
+                data-ai-target="home-check-btn"
                 onClick={() => onNavigate('/app/check')}
               >
                 <svg className="icon" aria-hidden="true">
@@ -97,6 +98,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
               <button
                 type="button"
                 className="btn btn-secondary"
+                data-ai-target="home-missing-btn"
                 onClick={() => onNavigate('/app/missing-name')}
               >
                 <span>{t(locale, 'landing.reportMissingNameBtn')}</span>
@@ -105,6 +107,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
               <button
                 type="button"
                 className="btn btn-ghost"
+                data-ai-target="home-eligibility-btn"
                 onClick={() => onNavigate('/eligibility-check')}
               >
                 <span>{t(locale, 'landing.understandStepsBtn')}</span>

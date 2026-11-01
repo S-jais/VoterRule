@@ -29,7 +29,9 @@ export type Resource =
   | 'staff_account'
   | 'notification'
   | 'check_in'
-  | 'assisted_authorization';
+  | 'assisted_authorization'
+  | 'ai_assistant'
+  | 'ai_knowledge';
 
 export interface ActorContext {
   id?: string;
@@ -58,13 +60,16 @@ export function can(
 ): boolean {
   if (!actor || !actor.role || actor.role === 'ANONYMOUS') {
     // Anonymous permissions
-    if (action === 'read' && (resource === 'guidance' || resource === 'status_check')) return true;
-    if (action === 'create' && resource === 'auth') return true;
+    if (action === 'read' && (resource === 'guidance' || resource === 'status_check' || resource === 'ai_assistant' || resource === 'ai_knowledge')) return true;
+    if (action === 'create' && (resource === 'auth' || resource === 'ai_assistant')) return true;
+    if (action === 'delete' && resource === 'ai_assistant') return true;
     return false;
   }
 
   // Citizens
   if (actor.role === 'CITIZEN') {
+    if (resource === 'ai_assistant' && (action === 'read' || action === 'create' || action === 'delete')) return true;
+    if (resource === 'ai_knowledge' && action === 'read') return true;
     if (resource === 'user_profile' && (action === 'read' || action === 'update' || action === 'delete')) {
       return context?.isOwnData ?? true;
     }

@@ -21,8 +21,13 @@ import {
   AccessibilityPage,
   StyleguidePage,
 } from './pages/StaticPages.js';
+import { useApp } from './context/AppContext.js';
+import { AssistantLauncher } from './components/ai/AssistantLauncher.js';
+import { AssistantPanel } from './components/ai/AssistantPanel.js';
 
 export const App: React.FC = () => {
+  const { locale, setLocale } = useApp();
+  const [isAIOpen, setIsAIOpen] = useState<boolean>(false);
   const [currentPath, setCurrentPath] = useState<string>(() => {
     if (typeof window !== 'undefined') {
       return window.location.pathname || '/';
@@ -118,6 +123,19 @@ export const App: React.FC = () => {
         {renderCurrentRoute()}
       </main>
       <Footer onNavigate={handleNavigate} />
+      <AssistantLauncher
+        isOpen={isAIOpen}
+        onToggle={() => setIsAIOpen(!isAIOpen)}
+        voiceState="IDLE"
+      />
+      <AssistantPanel
+        isOpen={isAIOpen}
+        onClose={() => setIsAIOpen(false)}
+        currentPath={currentPath}
+        onNavigate={handleNavigate}
+        locale={locale}
+        onSelectLocale={(l) => setLocale(l as any)}
+      />
     </div>
   );
 };

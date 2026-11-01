@@ -70,7 +70,7 @@ export const DeceasedReportPage: React.FC<DeceasedReportPageProps> = ({ onNaviga
         </p>
       </div>
 
-      <div className="bg-[var(--saffron-wash)] p-4 rounded-[var(--r-md)] border border-[var(--saffron)]/30 text-xs text-[var(--ink)] space-y-2">
+      <div id="deceased-safeguards" className="bg-[var(--saffron-wash)] p-4 rounded-[var(--r-md)] border border-[var(--saffron)]/30 text-xs text-[var(--ink)] space-y-2">
         <span className="font-bold text-[var(--saffron-deep)]">Legal & Civic Safeguard Notice:</span>
         <p className="text-[var(--ink-2)]">
           Reports never trigger automated deletions or modifications to official rolls. Statutory deletion requires official Form 7 submission to the competent Electoral Registration Officer (ERO) accompanied by a verified Death Certificate. Filing false statutory claims carries penalties under election law.
@@ -81,7 +81,7 @@ export const DeceasedReportPage: React.FC<DeceasedReportPageProps> = ({ onNaviga
 
       {result ? (
         <Card title="Report Received for Review">
-          <div className="space-y-4 pt-2">
+          <div id="deceased-confirmation" className="space-y-4 pt-2">
             <Alert type="success" title="Report Reference">
               {result.publicRef}
             </Alert>
@@ -101,12 +101,13 @@ export const DeceasedReportPage: React.FC<DeceasedReportPageProps> = ({ onNaviga
         </Card>
       ) : (
         <Card title="Report Details">
-          <form onSubmit={handleSubmit} className="space-y-5 pt-2">
+          <form id="deceased-form" onSubmit={handleSubmit} className="space-y-5 pt-2">
             <Input
               id="dec-name"
               label="Name of Deceased Person"
               value={reportedName}
               onChange={(e) => setReportedName(e.target.value)}
+              data-ai-target="deceased-name-input"
               required
             />
 
@@ -154,38 +155,41 @@ export const DeceasedReportPage: React.FC<DeceasedReportPageProps> = ({ onNaviga
               placeholder="e.g. ABC1234567"
             />
 
-            <div className="space-y-1.5">
-              <label className="text-sm font-bold text-[var(--ink)] block">
-                Reporter’s Basis of Knowledge *
-              </label>
-              <select
-                value={basis}
-                onChange={(e) => setBasis(e.target.value as any)}
-                className="w-full min-h-[44px] px-3 py-2 rounded-[var(--r-md)] border border-[var(--line-strong)] text-sm bg-[var(--surface)] text-[var(--ink)] focus:outline-none focus:ring-2 focus:ring-[var(--focus)]"
-              >
-                <option value={DeceasedBasis.IMMEDIATE_FAMILY}>Immediate Family Member</option>
-                <option value={DeceasedBasis.OTHER_RELATIVE}>Other Relative</option>
-                <option value={DeceasedBasis.NEIGHBOUR}>Neighbour / Community Member</option>
-                <option value={DeceasedBasis.LOCAL_OFFICIAL}>Local Official / Representative</option>
-                <option value={DeceasedBasis.OTHER}>Other Basis</option>
-              </select>
+            <div id="deceased-consent" className="space-y-4">
+              <div className="space-y-1.5">
+                <label className="text-sm font-bold text-[var(--ink)] block">
+                  Reporter’s Basis of Knowledge *
+                </label>
+                <select
+                  value={basis}
+                  onChange={(e) => setBasis(e.target.value as any)}
+                  data-ai-target="deceased-basis-select"
+                  className="w-full min-h-[44px] px-3 py-2 rounded-[var(--r-md)] border border-[var(--line-strong)] text-sm bg-[var(--surface)] text-[var(--ink)] focus:outline-none focus:ring-2 focus:ring-[var(--focus)]"
+                >
+                  <option value={DeceasedBasis.IMMEDIATE_FAMILY}>Immediate Family Member</option>
+                  <option value={DeceasedBasis.OTHER_RELATIVE}>Other Relative</option>
+                  <option value={DeceasedBasis.NEIGHBOUR}>Neighbour / Community Member</option>
+                  <option value={DeceasedBasis.LOCAL_OFFICIAL}>Local Official / Representative</option>
+                  <option value={DeceasedBasis.OTHER}>Other Basis</option>
+                </select>
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-xs font-semibold text-[var(--ink-2)]">
+                  Detailed Basis Explanation (Minimum 10 characters): *
+                </label>
+                <textarea
+                  rows={3}
+                  value={basisExplanation}
+                  onChange={(e) => setBasisExplanation(e.target.value)}
+                  className="w-full p-2.5 rounded-[var(--r-md)] border border-[var(--line-strong)] bg-[var(--surface)] text-[var(--ink)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--focus)]"
+                  placeholder="State your relationship, date or circumstances of passing, and any official certificate details."
+                  required
+                />
+              </div>
             </div>
 
-            <div className="space-y-1">
-              <label className="text-xs font-semibold text-[var(--ink-2)]">
-                Detailed Basis Explanation (Minimum 10 characters): *
-              </label>
-              <textarea
-                rows={3}
-                value={basisExplanation}
-                onChange={(e) => setBasisExplanation(e.target.value)}
-                className="w-full p-2.5 rounded-[var(--r-md)] border border-[var(--line-strong)] bg-[var(--surface)] text-[var(--ink)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--focus)]"
-                placeholder="State your relationship, date or circumstances of passing, and any official certificate details."
-                required
-              />
-            </div>
-
-            <Button type="submit" variant="primary" size="md" isLoading={submitting}>
+            <Button type="submit" variant="primary" size="md" isLoading={submitting} data-ai-target="deceased-submit-btn">
               Submit Deceased Person Report
             </Button>
           </form>

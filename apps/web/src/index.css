@@ -638,3 +638,34 @@ html:not(.past-hero) .chakra-bg { opacity: 0; }
 }
 @media (prefers-reduced-motion: reduce) { .chakra-bg { animation: none; } }
 @media print { .chakra-bg { display: none; } }
+
+/* ============================================================
+   VOTERRULE AI - TARGET HIGHLIGHT & CHAKRA LISTENER STYLES
+   ============================================================ */
+.ai-target-highlighted {
+  outline: 3px solid #FF9933 !important;
+  outline-offset: 3px !important;
+  box-shadow: 0 0 0 6px rgba(255, 153, 51, 0.35) !important;
+  animation: ai-target-pulse 1.8s ease-in-out infinite !important;
+  position: relative;
+  z-index: 30;
+}
+
+@keyframes ai-target-pulse {
+  0%, 100% { box-shadow: 0 0 0 4px rgba(255, 153, 51, 0.4); }
+  50% { box-shadow: 0 0 0 8px rgba(255, 153, 51, 0.15); }
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 8s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ai-target-highlighted { animation: none !important; }
+  .animate-spin-slow { animation: none !important; }
+}
