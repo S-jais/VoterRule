@@ -9,7 +9,7 @@ export interface HeaderProps {
 }
 
 export const Header: React.FC<HeaderProps> = ({ currentPath, onNavigate }) => {
-  const { locale, theme, toggleTheme, user, setUser } = useApp();
+  const { locale, theme, toggleTheme, user, setUser, isAdmin } = useApp();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const handleAnchor = (anchor: string) => {
@@ -228,6 +228,20 @@ export const Header: React.FC<HeaderProps> = ({ currentPath, onNavigate }) => {
 
               {user ? (
                 <div className="flex items-center gap-2">
+                  {isAdmin && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setMobileMenuOpen(false);
+                        onNavigate('/admin');
+                      }}
+                      className="btn btn-sm flex items-center gap-1.5 bg-indigo-900/40 text-indigo-300 hover:bg-indigo-900/60 border border-indigo-700/60 font-semibold"
+                      title="Open Authorized Admin & Reviewer Portal"
+                    >
+                      <span aria-hidden="true">🛡️</span>
+                      <span>Admin</span>
+                    </button>
+                  )}
                   <button
                     type="button"
                     onClick={() => {

@@ -21,12 +21,13 @@ import {
   AccessibilityPage,
   StyleguidePage,
 } from './pages/StaticPages.js';
+import { AdminHub } from './pages/admin/AdminHub.js';
 import { useApp } from './context/AppContext.js';
 import { AssistantLauncher } from './components/ai/AssistantLauncher.js';
 import { AssistantPanel } from './components/ai/AssistantPanel.js';
 
 export const App: React.FC = () => {
-  const { locale, setLocale } = useApp();
+  const { locale, setLocale, isAdmin, user } = useApp();
   const [isAIOpen, setIsAIOpen] = useState<boolean>(false);
   const [currentPath, setCurrentPath] = useState<string>(() => {
     if (typeof window !== 'undefined') {
@@ -111,6 +112,36 @@ export const App: React.FC = () => {
     if (currentPath === '/privacy' || currentPath === '/terms' || currentPath === '/security') return <PrivacyPolicyPage />;
     if (currentPath === '/accessibility') return <AccessibilityPage />;
     if (currentPath === '/styleguide') return <StyleguidePage />;
+    if (currentPath.startsWith('/admin')) {
+      if (isAdmin) {
+        return <AdminHub onNavigate={handleNavigate} />;
+      }
+      return (
+        <div className="max-w-md mx-auto py-24 px-4 text-center">
+          <div className="p-8 rounded-2xl bg-white border border-gray-200 shadow-sm space-y-4">
+            <span className="text-4xl">🛡️</span>
+            <h2 className="text-xl font-bold text-gray-900">Admin Access Restricted</h2>
+            <p className="text-sm text-gray-600">
+              The Administrative & Reviewer Console is restricted to authorized personnel.
+              {user ? (
+                <span> You are signed in as <strong>{user.email || user.displayName}</strong>, which does not have staff privileges.</span>
+              ) : (
+                <span> Please sign in with your authorized admin email address to access this portal.</span>
+              )}
+            </p>
+            <div className="pt-2">
+              <button
+                type="button"
+                onClick={() => handleNavigate('/auth/login')}
+                className="btn btn-primary btn-sm"
+              >
+                Sign In with Admin Account
+              </button>
+            </div>
+          </div>
+        </div>
+      );
+    }
 
     return <LandingPage onNavigate={handleNavigate} />;
   };

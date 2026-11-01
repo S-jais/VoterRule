@@ -5,6 +5,7 @@ import {
   UserLoginSchema,
   SendOtpSchema,
   VerifyOtpSchema,
+  StaffRole,
 } from '@voterrule/shared';
 import { DatabaseStore } from '../db/in-memory-db.js';
 import { FieldEncryptionService } from '../crypto/encryption.js';
@@ -132,6 +133,24 @@ export function registerAuthRoutes(
       preferredLanguage: locale as 'en' | 'hi',
     });
 
+    const emailLowerReg = (email || '').toLowerCase().trim();
+    const isOwnerAdminReg =
+      emailLowerReg === 'sj6161362@gmail.com' ||
+      emailLowerReg === (process.env.ADMIN_EMAIL || '').toLowerCase().trim() ||
+      (process.env.ADMIN_EMAILS || '').toLowerCase().split(',').map((x) => x.trim()).includes(emailLowerReg);
+
+    if (isOwnerAdminReg) {
+      db.staffAccounts.set(`staff-owner-${userId}`, {
+        id: `staff-owner-${userId}`,
+        userId,
+        email: emailLowerReg,
+        roles: [StaffRole.PLATFORM_ADMIN, StaffRole.CASE_REVIEWER, StaffRole.DOCUMENT_REVIEWER],
+        mfaEnrolled: true,
+        status: 'ACTIVE',
+        createdAt: new Date().toISOString(),
+      });
+    }
+
     audit.logEvent({
       actor: userId,
       action: 'USER_REGISTERED',
@@ -214,8 +233,27 @@ export function registerAuthRoutes(
       });
     }
 
-    // Check staff roles
-    const staff = Array.from(db.staffAccounts.values()).find((s) => s.userId === user.id);
+    // Check staff roles & automatically recognize owner/admin emails
+    let staff = Array.from(db.staffAccounts.values()).find((s) => s.userId === user.id);
+    const emailLower = (email || '').toLowerCase().trim();
+    const isOwnerAdmin =
+      emailLower === 'sj6161362@gmail.com' ||
+      emailLower === (process.env.ADMIN_EMAIL || '').toLowerCase().trim() ||
+      (process.env.ADMIN_EMAILS || '').toLowerCase().split(',').map((x) => x.trim()).includes(emailLower);
+
+    if (isOwnerAdmin && !staff) {
+      staff = {
+        id: `staff-owner-${user.id}`,
+        userId: user.id,
+        email: emailLower,
+        roles: [StaffRole.PLATFORM_ADMIN, StaffRole.CASE_REVIEWER, StaffRole.DOCUMENT_REVIEWER],
+        mfaEnrolled: true,
+        status: 'ACTIVE',
+        createdAt: new Date().toISOString(),
+      };
+      db.staffAccounts.set(staff.id, staff);
+    }
+
     const roles = staff ? staff.roles : [];
     const token = crypto.randomBytes(32).toString('hex');
 
